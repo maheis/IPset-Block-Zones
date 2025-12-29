@@ -7,7 +7,10 @@ function install {
 
 # Listen Abfragen
 function lists {
+    echo "Vorhandene IPset-Listen:"
     /sbin/ipset list -terse
+    echo "###"
+    echo "Zugehörige IPTables-Regeln:"
     /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries'
 }
 
