@@ -8,6 +8,7 @@ function install {
 # Listen Abfragen
 function lists {
     /sbin/ipset list -terse
+    /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries'
 }
 
 # Listen anlegen
