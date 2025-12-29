@@ -5,6 +5,7 @@ In Progress...
 ## Listen
 
 [IPdeny](https://www.ipdeny.com)
+
 - blocked-countries-ipv4
 - blocked-countries-ipv6
 
@@ -31,15 +32,13 @@ In Progress...
 - firehol_webserver
   - A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)
 
-## Installation
+## Erstinstallation
 
 ```bash
 mkdir -p /etc/ipset
 wget https://raw.githubusercontent.com/maheis/IPset-Block-Zones/refs/heads/main/block-zones.sh > /dev/null 2>&1
 sudo mv -f block-zones.sh /etc/ipset/block-zones.sh
 sudo chmod +x /etc/ipset/block-zones.sh
-wget https://raw.githubusercontent.com/maheis/IPset-Block-Zones/refs/heads/main/function-zones.sh > /dev/null 2>&1
-sudo mv -f function-zones.sh /etc/ipset/function-zones.sh
 ```
 
 ## Nutzung
