@@ -74,387 +74,387 @@ function update {
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # A IPv4
+        # Afghanistan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/af-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ALBANIA IPv4
+        # Albania IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/al-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ALGERIA IPv4
+        # Algeria IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/dz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ANDORRA IPv4
+        # Andorra IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ad-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ANGOLA IPv4
+        # Angola IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ao-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ARMENIA IPv4
+        # Armenia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/am-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # AUSTRALIA IPv4
+        # Australia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/au-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # AZERBAIJAN IPv4
+        # Azerbaijan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/az-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # BANGLADESH IPv4
+        # Bangladesh IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/bd-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # BELARUS IPv4
+        # Belarus IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/by-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # BRAZIL IPv4
+        # Brazil IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/br-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # BULGARIA IPv4
+        # Bulgaria IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/bg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CAMBODIA IPv4
+        # Cambodia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kh-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CAYMAN ISLANDS IPv4
+        # Cayman Islands IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ky-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CENTRAL AFRICAN REPUBLIC IPv4
+        # Central African Republic IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/cf-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CHAD IPv4
+        # Chad IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/td-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        #CHILE IPv4
+        # Chile IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/cl-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # COLOMBIA IPv4
+        # Colombia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/co-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CONGO IPv4
+        # Congo IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/cg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # COSTA RICA IPv4
+        # Costa Rica IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/cr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # COTE D'IVOIRE IPv4
+        # Cote d'Ivoire IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ci-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # CUBA IPv4
+        # Cuba IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/cu-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # DJIBOUTI IPv4
+        # Djibouti IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/dj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ECUADOR IPv4
+        # Ecuador IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ec-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # EGYPT IPv4
+        # Egypt IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/eg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # EL SALVADOR IPv4
+        # El Salvador IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/sv-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ETHIOPIA IPv4
+        # Ethiopia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/et-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # FIJI IPv4
+        # Fiji IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/fj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # GABON IPv4
+        # Gabon IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ga-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # GAMBIA IPv4
+        # Gambia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/gm-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # GHANA IPv4
+        # Ghana IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/gh-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # GUATEMALA IPv4
+        # Guatemala IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/gt-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # HONDURAS IPv4
+        # Honduras IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/hn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # HONG KONG IPv4
+        # Hong Kong IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/hk-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # INDONESIA IPv4
+        # Indonesia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/id-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # IRAN, ISLAMIC REPUBLIC IPv4
+        # Iran, Islamic Republic IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ir-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # IRAQ IPv4
+        # Iraq IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/iq-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # ISRAEL IPv4
+        # Israel IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/il-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # JORDAN IPv4
+        # Jordan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/jo-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KAZAKHSTAN IPv4
+        # Kazakhstan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KENYA IPv4
+        # Kenya IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ke-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF IPv4
+        # Korea, Democratic People's Republic of IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kp-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KOREA, REPUBLIC OF IPv4
+        # Korea, Republic of IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KUWAIT IPv4
+        # Kuwait IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kw-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # KYRGYZSTAN IPv4
+        # Kyrgyzstan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/kg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # SINGAPORE IPv4
+        # Singapore IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/sg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # LAO PEOPLE'S DEMOCRATIC REPUBLIC IPv4
+        # Lao People's Democratic Republic IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/la-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # LEBANON IPv4
+        # Lebanon IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/lb-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # LIBYAN ARAB JAMAHIRIYA IPv4
+        # Libyan Arab Jamahiriya IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ly-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MADAGASCAR IPv4
+        # Madagascar IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/mg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MALAYSIA IPv4
+        # Malaysia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/my-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MEXICO IPv4
+        # Mexico IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/mx-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MOLDOVA, REPUBLIC OF IPv4
+        # Moldova, Republic of IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/md-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MONGOLIA IPv4
+        # Mongolia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/mn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # MYANMAR IPv4
+        # Myanmar IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/mm-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # NEW ZEALAND IPv4
+        # New Zealand IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/nz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # OMAN IPv4
+        # Oman IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/om-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PAKISTAN IPv4
+        # Pakistan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/pk-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PALESTINIAN TERRITORY, OCCUPIED
+        # Palestinian Territory, Occupied
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ps-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PANAMA IPv4
+        # Panama IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/pa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PAPUA NEW GUINEA IPv4
+        # Papua New Guinea IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/pg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PARAGUAY IPv4
+        # Paraguay IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/py-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PERU IPv4
+        # Peru IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/pe-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PHILIPPINES IPv4
+        # Philippines IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ph-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # PUERTO RICO IPv4
+        # Puerto Rico IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/pr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # QATAR IPv4
+        # Qatar IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/qa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # SAUDI ARABIA IPv4
+        # Saudi Arabia IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/sa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # SEYCHELLES IPv4
+        # Seychelles IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/sc-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # SOUTH AFRICA IPv4
+        # South Africa IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/za-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # SYRIAN ARAB REPUBLIC IPv4
+        # Syrian Arab Republic IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/sy-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # TAIWAN IPv4
+        # Taiwan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/tw-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # TAJIKISTAN IPv4
+        # Tajikistan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/tj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # THAILAND IPv4
+        # Thailand IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/th-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # UNITED ARAB EMIRATES IPv4
+        # United Arab Emirates IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ae-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # YEMEN IPv4
+        # Yemen IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/ye-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # VIET NAM  IPv4
+        # Viet Nam IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/vn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # UZBEKISTAN IPv4
+        # Uzbekistan IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/uz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
@@ -475,387 +475,387 @@ function update {
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # AFGHANISTAN IPv6
+        # Afghanistan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/af-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ALBANIA IPv6
+        # Albania IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/al-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ALGERIA IPv6
+        # Algeria IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/dz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ANDORRA IPv6
+        # Andorra IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ad-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ANGOLA IPv6
+        # Angola IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ao-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ARMENIA IPv6
+        # Armenia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/am-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # AUSTRALIA IPv6
+        # Australia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/au-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # AZERBAIJAN IPv6
+        # Azerbaijan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/az-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # BANGLADESH IPv6
+        # Bangladesh IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/bd-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # BELARUS IPv6
+        # Belarus IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/by-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # BRAZIL IPv6
+        # Brazil IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/br-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # BULGARIA IPv6
+        # Bulgaria IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/bg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CAMBODIA IPv6
+        # Cambodia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kh-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CAYMAN ISLANDS IPv6
+        # Cayman Islands IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ky-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CENTRAL AFRICAN REPUBLIC IPv6
+        # Central African Republic IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/cf-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CHAD IPv6
+        # Chad IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/td-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        #CHILE IPv6
+        # Chile IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/cl-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # COLOMBIA IPv6
+        # Colombia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/co-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CONGO IPv6
+        # Congo IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/cg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # COSTA RICA IPv6
+        # Costa Rica IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/cr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # COTE D'IVOIRE IPv6
+        # Cote d'Ivoire IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ci-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # CUBA IPv6
+        # Cuba IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/cu-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # DJIBOUTI IPv6
+        # Djibouti IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/dj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ECUADOR IPv6
+        # Ecuador IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ec-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # EGYPT IPv6
+        # Egypt IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/eg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # EL SALVADOR IPv6
+        # El Salvador IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/sv-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ETHIOPIA IPv6
+        # Ethiopia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/et-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # FIJI IPv6
+        # Fiji IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/fj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # GABON IPv6
+        # Gabon IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ga-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # GAMBIA IPv6
+        # Gambia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/gm-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # GHANA IPv6
+        # Ghana IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/gh-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # GUATEMALA IPv6
+        # Guatemala IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/gt-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # HONDURAS IPv6
+        # Honduras IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/hn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # HONG KONG IPv6
+        # Hong Kong IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/hk-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # INDONESIA IPv6
+        # Indonesia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/id-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # IRAN, ISLAMIC REPUBLIC IPv6
+        # Iran, Islamic Republic IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ir-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # IRAQ IPv6
+        # Iraq IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/iq-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # ISRAEL IPv6
+        # Israel IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/il-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # JORDAN IPv6
+        # Jordan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/jo-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KAZAKHSTAN IPv6
+        # Kazakhstan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KENYA IPv6
+        # Kenya IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ke-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF IPv6
+        # Korea, Democratic People's Republic of IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kp-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KOREA, REPUBLIC OF IPv6
+        # Korea, Republic of IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KUWAIT IPv6
+        # Kuwait IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kw-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # KYRGYZSTAN IPv6
+        # Kyrgyzstan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/kg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # SINGAPORE IPv6
+        # Singapore IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/sg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # LAO PEOPLE'S DEMOCRATIC REPUBLIC IPv6
+        # Lao People's Democratic Republic IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/la-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # LEBANON IPv6
+        # Lebanon IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/lb-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # LIBYAN ARAB JAMAHIRIYA IPv6
+        # Libyan Arab Jamahiriya IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ly-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MADAGASCAR IPv6
+        # Madagascar IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/mg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MALAYSIA IPv6
+        # Malaysia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/my-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MEXICO IPv6
+        # Mexico IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/mx-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MOLDOVA, REPUBLIC OF IPv6
+        # Moldova, Republic of IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/md-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MONGOLIA IPv6
+        # Mongolia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/mn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # MYANMAR IPv6
+        # Myanmar IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/mm-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # NEW ZEALAND IPv6
+        # New Zealand IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/nz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # OMAN IPv6
+        # Oman IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/om-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PAKISTAN IPv6
+        # Pakistan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/pk-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PALESTINIAN TERRITORY, OCCUPIED
+        # Palestinian Territory, Occupied
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ps-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PANAMA IPv6
+        # Panama IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/pa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PAPUA NEW GUINEA IPv6
+        # Papua New Guinea IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/pg-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PARAGUAY IPv6
+        # Paraguay IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/py-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PERU IPv6
+        # Peru IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/pe-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PHILIPPINES IPv6
+        # Philippines IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ph-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # PUERTO RICO IPv6
+        # Puerto Rico IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/pr-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # QATAR IPv6
+        # Qatar IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/qa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # SAUDI ARABIA IPv6
+        # Saudi Arabia IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/sa-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # SEYCHELLES IPv6
+        # Seychelles IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/sc-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # SOUTH AFRICA IPv6
+        # South Africa IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/za-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # SYRIAN ARAB REPUBLIC IPv6
+        # Syrian Arab Republic IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/sy-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # TAIWAN IPv6
+        # Taiwan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/tw-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # TAJIKISTAN IPv6
+        # Tajikistan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/tj-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # THAILAND IPv6
+        # Thailand IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/th-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # UNITED ARAB EMIRATES IPv6
+        # United Arab Emirates IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ae-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # YEMEN IPv6
+        # Yemen IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/ye-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # VIET NAM  IPv6
+        # Viet Nam IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/vn-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
 
-        # UZBEKISTAN IPv6
+        # Uzbekistan IPv6
         for ZONE in $(wget --quiet -O - https://ipdeny.com/ipv6/ipaddresses/aggregated/uz-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv6 "$ZONE"
         done
