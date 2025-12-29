@@ -12,24 +12,56 @@ function lists {
 
 # Listen anlegen
 function create {
-    # /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
-    # /sbin/ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6
-    # /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000
-    # /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000
-    # /sbin/ipset --create firehol_anonymous nethash maxelem 4000000
-    /sbin/ipset --create firehol_level1 nethash maxelem 10000
-    /sbin/ipset --create firehol_level2 nethash maxelem 30000
-    /sbin/ipset --create firehol_level3 nethash maxelem 30000
-    # /sbin/ipset --create firehol_level4 nethash maxelem 160000
-    # /sbin/ipset --create firehol_proxies nethash maxelem 4000000
-    # /sbin/ipset --create firehol_webclient nethash maxelem 6000
-    # /sbin/ipset --create firehol_webserver nethash maxelem 6000
+    echo "Welche IPset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
+    echo "1) blocked-countries-ipv4"
+    echo "China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australia, Azerbaijan, Bangladesh, Belarus, Brazil, Bulgaria, Cambodia, Cayman Islands, Central African Republic, Chad, Chile, Colombia, Congo, Costa Rica, Cote D'Ivoire, Cuba, Djibouti, Ecuador, Egypt, El Salvador, Ethiopia, Fiji, Gabon, Gambia, Ghana, Guatemala, Honduras, Hong Kong, Indonesia, Iran, Iraq"
+    echo "2) blocked-countries-ipv6"
+
+    echo "3) firehol_abusers_1d"
+    echo "An ipset made from blocklists that track abusers in the last 24 hours. (includes: botscout_1d cleantalk_new_1d cleantalk_updated_1d php_commenters_1d php_dictionary_1d php_harvesters_1d php_spammers_1d stopforumspam_1d)"
+    echo "4) firehol_abusers_30d"
+    echo "An ipset made from blocklists that track abusers in the last 30 days. (includes: cleantalk_new_30d cleantalk_updated_30d php_commenters_30d php_dictionary_30d php_harvesters_30d php_spammers_30d stopforumspam sblam)"
+    echo "5) firehol_anonymous"
+    echo "An ipset that includes all the anonymizing IPs of the world. (includes: anonymous dm_tor firehol_proxies tor_exits)"
+    echo "6) firehol_level1"
+    echo "This site analyses all available security IP Feeds, mainly related to on-line attacks, on-line service abuse, malwares, botnets, command and control servers and other cybercrime activities."
+    echo "7) firehol_level2"
+    echo "An ipset made from blocklists that track attacks, during about the last 48 hours. (includes: blocklist_de dshield_1d greensnow)"
+    echo "8) firehol_level3"
+    echo "An ipset made from blocklists that track attacks, spyware, viruses. It includes IPs than have been reported or detected in the last 30 days. (includes: bruteforceblocker ciarmy dshield_30d myip vxvault)"
+    echo "9) firehol_level4"
+    echo "An ipset made from blocklists that track attacks, but may include a large number of false positives. (includes: blocklist_net_ua botscout_30d cybercrime iblocklist_hijacked iblocklist_spyware iblocklist_webexploit)"
+    echo "10) firehol_proxies"
+    echo "An ipset made from all sources that track open proxies. It includes IPs reported or detected in the last 30 days. (includes: iblocklist_proxies ip2proxy_px1lite socks_proxy_30d sslproxies_30d)"
+    echo "11) firehol_webclient"
+    echo "An IP blacklist made from blocklists that track IPs that a web client should never talk to. This list is to be used on top of firehol_level1. (includes: cybercrime)"
+    echo "12) firehol_webserver"
+    echo "A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)"
+    echo -n "Auswahl: "
+    read -r auswahl
+
+    for i in $auswahl; do
+        case $i in
+            1)  /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000 ;;
+            2)  /sbin/ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6 ;;
+            3)  /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000 ;;
+            4)  /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000 ;;
+            5)  /sbin/ipset --create firehol_anonymous nethash maxelem 4000000 ;;
+            6)  /sbin/ipset --create firehol_level1 nethash maxelem 10000 ;;
+            7)  /sbin/ipset --create firehol_level2 nethash maxelem 30000 ;;
+            8)  /sbin/ipset --create firehol_level3 nethash maxelem 30000 ;;
+            9)  /sbin/ipset --create firehol_level4 nethash maxelem 160000 ;;
+            10) /sbin/ipset --create firehol_proxies nethash maxelem 4000000 ;;
+            11) /sbin/ipset --create firehol_webclient nethash maxelem 6000 ;;
+            12) /sbin/ipset --create firehol_webserver nethash maxelem 6000 ;;
+            *)  echo "Ungültige Auswahl: $i" ;;
+        esac
+    done
 }
 
 # Listen befüllen (kann dauern !)
 function update {
     if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
-        # Flush existing IPv4 rules
         /sbin/ipset flush blocked-countries-ipv4
 
         # China IPv4
@@ -42,7 +74,7 @@ function update {
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
 
-        # AFGHANISTAN IPv4
+        # A IPv4
         for ZONE in $(wget --quiet -O - https://www.ipdeny.com/ipblocks/data/aggregated/af-aggregated.zone)
         do /sbin/ipset --add blocked-countries-ipv4 "$ZONE"
         done
@@ -431,7 +463,6 @@ function update {
     ###############
 
     if /sbin/ipset list blocked-countries-ipv6 &>/dev/null; then
-        # Flush existing IPv6 rules
         /sbin/ipset flush blocked-countries-ipv6
 
         # China IPv6
@@ -833,7 +864,6 @@ function update {
     ###############
 
     if /sbin/ipset list firehol_abusers_1d &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_abusers_1d
 
         # FireHOL ‘level 1’ blacklist
@@ -843,7 +873,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_abusers_30d &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_abusers_30d
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_abusers_30d.netset | sed '/#/d')
@@ -852,7 +881,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_anonymous &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_anonymous
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_anonymous.netset | sed '/#/d')
@@ -861,7 +889,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_level1 &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_level1
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level1.netset | sed '/#/d')
@@ -870,7 +897,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_level2 &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_level2
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level2.netset | sed '/#/d')
@@ -879,7 +905,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_level3 &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_level3
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level3.netset | sed '/#/d')
@@ -888,7 +913,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_level4 &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_level4
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level4.netset | sed '/#/d')
@@ -897,7 +921,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_proxies &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_proxies
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_proxies.netset | sed '/#/d')
@@ -906,7 +929,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_webclient &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_webclient
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_webclient.netset | sed '/#/d')
@@ -915,7 +937,6 @@ function update {
     fi
 
     if /sbin/ipset list firehol_webserver &>/dev/null; then
-        # Flush existing FireHOL rules
         /sbin/ipset flush firehol_webserver
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_webserver.netset | sed '/#/d')
