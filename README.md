@@ -45,6 +45,14 @@ sudo chmod +x /etc/ipset/block-zones.sh
 
 ```bash
 sudo /etc/ipset/block-zones.sh
+
+sudo /etc/ipset/block-zones.sh install     # Benötigte Pakete installieren
+sudo /etc/ipset/block-zones.sh lists       # Listen anzeigen
+sudo /etc/ipset/block-zones.sh create      # Listen erstellen
+sudo /etc/ipset/block-zones.sh update      # Listen aktualisieren
+sudo /etc/ipset/block-zones.sh import      # Listen importieren
+sudo /etc/ipset/block-zones.sh remove      # Listen entfernen
+
 ```
 
 ## Automatisierung
