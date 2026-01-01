@@ -8,6 +8,8 @@ function install {
 
 # Listen Abfragen
 function lists {
+    echo ""
+    
     echo "Vorhandene IPset-Listen:"
     echo ""
     ipset list -terse
@@ -21,6 +23,8 @@ function lists {
 
 # Listen anlegen
 function create {
+    echo ""
+
     echo "Welche IPset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
     echo "1) blocked-countries-ipv4"
     echo "2) blocked-countries-ipv6"
@@ -58,6 +62,8 @@ function create {
     echo ""
     echo -n "Auswahl: "
     read -r auswahl
+
+    echo ""
 
     for i in $auswahl; do
         case $i in
@@ -143,6 +149,8 @@ function create {
 
 # Listen befüllen (kann dauern !)
 function update {
+    echo ""
+
     if ipset list blocked-countries-ipv4 &>/dev/null; then
         echo "Aktualisiere blocked-countries-ipv4"
         
@@ -1052,6 +1060,8 @@ function update {
 
 # Listen entfernen
 function remove {
+    echo ""
+
     if ipset list blocked-countries-ipv4 &>/dev/null; then
         echo "Entferne blocked-countries-ipv4"
 
