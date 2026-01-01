@@ -9,7 +9,7 @@ function install {
 # Listen Abfragen
 function lists {
     echo ""
-    
+
     echo "Vorhandene IPset-Listen:"
     echo ""
     ipset list -terse
@@ -1056,6 +1056,8 @@ function update {
         do ipset --add firehol_webserver "$ZONE"
         done
     fi
+
+    lists
 }
 
 # Listen entfernen
@@ -1134,4 +1136,6 @@ function remove {
         iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
         ipset --destroy firehol_webserver
     fi
+
+    lists
 }
