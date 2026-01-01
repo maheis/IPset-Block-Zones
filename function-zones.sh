@@ -114,6 +114,9 @@ function create {
             *)  echo "Ungültige Auswahl: $i" ;;
         esac
     done
+
+    update
+    lists
 }
 
 # Listen befüllen (kann dauern !)
