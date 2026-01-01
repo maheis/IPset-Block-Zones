@@ -64,50 +64,74 @@ function create {
     for i in $auswahl; do
         case $i in
             1)
+                echo "Erstelle blocked-countries-ipv4"
+
                 ipset --create blocked-countries-ipv4 nethash maxelem 10000000
                 iptables -A INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
                 ;;
             2)
+                echo "Erstelle blocked-countries-ipv6"
+
                 ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6
                 ip6tables -A INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
                 ;;
             3)
+                echo "Erstelle firehol_abusers_1d"
+
                 ipset --create firehol_abusers_1d nethash maxelem 10000
                 iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 ;;
             4)
+                echo "Erstelle firehol_abusers_30d"
+
                 ipset --create firehol_abusers_30d nethash maxelem 400000
                 iptables -A INPUT -m set --match-set firehol_abusers_30d src -j DROP
                 ;;
             5)
+                echo "Erstelle firehol_anonymous"
+
                 ipset --create firehol_anonymous nethash maxelem 4000000
                 iptables -A INPUT -m set --match-set firehol_anonymous src -j DROP
                 ;;
             6)
+                echo "Erstelle firehol_level1"
+
                 ipset --create firehol_level1 nethash maxelem 10000
                 iptables -A INPUT -m set --match-set firehol_level1 src -j DROP
                 ;;
             7)
+                echo "Erstelle firehol_level2"
+                
                 ipset --create firehol_level2 nethash maxelem 30000
                 iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
                 ;;
             8)
+                echo "Erstelle firehol_level3"
+
                 ipset --create firehol_level3 nethash maxelem 30000
                 iptables -A INPUT -m set --match-set firehol_level3 src -j DROP
                 ;;
             9)
+                echo "Erstelle firehol_level4"
+
                 ipset --create firehol_level4 nethash maxelem 160000
                 iptables -A INPUT -m set --match-set firehol_level4 src -j DROP
                 ;;
             10)
+                echo "Erstelle firehol_proxies"
+
                 ipset --create firehol_proxies nethash maxelem 4000000
                 iptables -A INPUT -m set --match-set firehol_proxies src -j DROP
                 ;;
             11)
+                echo "Erstelle firehol_webclient"
+
                 ipset --create firehol_webclient nethash maxelem 6000
                 iptables -A INPUT -m set --match-set firehol_webclient src -j DROP
                 ;;
             12)
+                echo "Erstelle firehol_webserver"
+                
                 ipset --create firehol_webserver nethash maxelem 6000
                 iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
                 ;;
@@ -122,6 +146,8 @@ function create {
 # Listen befüllen (kann dauern !)
 function update {
     if ipset list blocked-countries-ipv4 &>/dev/null; then
+        echo "Aktualisiere blocked-countries-ipv4"
+        
         ipset flush blocked-countries-ipv4
 
         # China
@@ -523,6 +549,8 @@ function update {
     ###############
 
     if ipset list blocked-countries-ipv6 &>/dev/null; then
+        echo "Aktualisiere blocked-countries-ipv6"
+
         ipset flush blocked-countries-ipv6
 
         # China
@@ -924,6 +952,8 @@ function update {
     ###############
 
     if ipset list firehol_abusers_1d &>/dev/null; then
+        echo "Aktualisiere firehol_abusers_1d"
+
         ipset flush firehol_abusers_1d
         
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_abusers_1d.netset | sed '/#/d')
@@ -932,6 +962,8 @@ function update {
     fi
 
     if ipset list firehol_abusers_30d &>/dev/null; then
+        echo "Aktualisiere firehol_abusers_30d"
+
         ipset flush firehol_abusers_30d
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_abusers_30d.netset | sed '/#/d')
@@ -940,6 +972,8 @@ function update {
     fi
 
     if ipset list firehol_anonymous &>/dev/null; then
+        echo "Aktualisiere firehol_anonymous"
+
         ipset flush firehol_anonymous
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_anonymous.netset | sed '/#/d')
@@ -948,6 +982,8 @@ function update {
     fi
 
     if ipset list firehol_level1 &>/dev/null; then
+        echo "Aktualisiere firehol_level1"
+        
         ipset flush firehol_level1
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level1.netset | sed '/#/d')
@@ -956,6 +992,8 @@ function update {
     fi
 
     if ipset list firehol_level2 &>/dev/null; then
+        echo "Aktualisiere firehol_level2"
+
         ipset flush firehol_level2
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level2.netset | sed '/#/d')
@@ -964,6 +1002,8 @@ function update {
     fi
 
     if ipset list firehol_level3 &>/dev/null; then
+        echo "Aktualisiere firehol_level3"
+
         ipset flush firehol_level3
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level3.netset | sed '/#/d')
@@ -972,6 +1012,8 @@ function update {
     fi
 
     if ipset list firehol_level4 &>/dev/null; then
+        echo "Aktualisiere firehol_level4"
+
         ipset flush firehol_level4
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level4.netset | sed '/#/d')
@@ -980,6 +1022,8 @@ function update {
     fi
 
     if ipset list firehol_proxies &>/dev/null; then
+        echo "Aktualisiere firehol_proxies"
+
         ipset flush firehol_proxies
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_proxies.netset | sed '/#/d')
@@ -988,6 +1032,8 @@ function update {
     fi
 
     if ipset list firehol_webclient &>/dev/null; then
+        echo "Aktualisiere firehol_webclient"
+
         ipset flush firehol_webclient
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_webclient.netset | sed '/#/d')
@@ -996,6 +1042,8 @@ function update {
     fi
 
     if ipset list firehol_webserver &>/dev/null; then
+        echo "Aktualisiere firehol_webserver"
+
         ipset flush firehol_webserver
 
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_webserver.netset | sed '/#/d')
@@ -1007,50 +1055,74 @@ function update {
 # Listen entfernen
 function remove {
     if ipset list blocked-countries-ipv4 &>/dev/null; then
+        echo "Entferne blocked-countries-ipv4"
+
         iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
         ipset --destroy blocked-countries-ipv4
     fi
     if ipset list blocked-countries-ipv6 &>/dev/null; then
+        echo "Entferne blocked-countries-ipv6"
+
         ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
         ipset --destroy blocked-countries-ipv6
     fi
     if ipset list firehol_abusers_1d &>/dev/null; then
+        echo "Entferne firehol_abusers_1d"
+
         ip6tables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
         ipset --destroy firehol_abusers_1d
     fi
     if ipset list firehol_abusers_30d &>/dev/null; then
+        echo "Entferne firehol_abusers_30d"
+
         ip6tables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
         ipset --destroy firehol_abusers_30d
     fi
     if ipset list firehol_anonymous &>/dev/null; then
+        echo "Entferne firehol_anonymous"
+
         ip6tables -D INPUT -m set --match-set firehol_anonymous src -j DROP
         ipset --destroy firehol_anonymous
     fi
     if ipset list firehol_level1 &>/dev/null; then
+        echo "Entferne firehol_level1"
+
         iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
         ipset --destroy firehol_level1
     fi
     if ipset list firehol_level2 &>/dev/null; then
+        echo "Entferne firehol_level2"
+
         iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
         ipset --destroy firehol_level2
     fi
     if ipset list firehol_level3 &>/dev/null; then
+        echo "Entferne firehol_level3"
+
         iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
         ipset --destroy firehol_level3
     fi
     if ipset list firehol_level4 &>/dev/null; then
+        echo "Entferne firehol_level4"
+
         iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
         ipset --destroy firehol_level4
     fi
     if ipset list firehol_proxies &>/dev/null; then
+        echo "Entferne firehol_proxies"
+
         iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
         ipset --destroy firehol_proxies
     fi
     if ipset list firehol_webclient &>/dev/null; then
+        echo "Entferne firehol_webclient"
+
         iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
         ipset --destroy firehol_webclient
     fi
     if ipset list firehol_webserver &>/dev/null; then
+        echo "Entferne firehol_webserver"
+
         iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
         ipset --destroy firehol_webserver
     fi
