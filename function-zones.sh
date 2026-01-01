@@ -2,15 +2,20 @@
 
 # Install
 function install {
-    install ipset
+    echo "Installation der benötigten Pakete: ipset, iptables"
+    apt install ipset iptables
 }
 
 # Listen Abfragen
 function lists {
     echo "Vorhandene IPset-Listen:"
+    echo ""
     /sbin/ipset list -terse
+    echo ""
     echo "###"
+    echo ""
     echo "Zugehörige IPTables-Regeln:"
+    echo ""
     /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries'
 }
 
