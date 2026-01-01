@@ -63,51 +63,51 @@ function create {
 
     for i in $auswahl; do
         case $i in
-            1)  
+            1)
                 /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
                 iptables -A INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
                 ;;
-            2)  
+            2)
                 /sbin/ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6
                 ip6tables -A INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
                 ;;
-            3)  
+            3)
                 /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000
                 iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 ;;
-            4)  
+            4)
                 /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000
                 iptables -A INPUT -m set --match-set firehol_abusers_30d src -j DROP
                 ;;
-            5)  
+            5)
                 /sbin/ipset --create firehol_anonymous nethash maxelem 4000000
                 iptables -A INPUT -m set --match-set firehol_anonymous src -j DROP
                 ;;
-            6)  
+            6)
                 /sbin/ipset --create firehol_level1 nethash maxelem 10000
                 iptables -A INPUT -m set --match-set firehol_level1 src -j DROP
                 ;;
-            7)  
+            7)
                 /sbin/ipset --create firehol_level2 nethash maxelem 30000
                 iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
                 ;;
-            8)  
+            8)
                 /sbin/ipset --create firehol_level3 nethash maxelem 30000
                 iptables -A INPUT -m set --match-set firehol_level3 src -j DROP
                 ;;
-            9)  
+            9)
                 /sbin/ipset --create firehol_level4 nethash maxelem 160000
                 iptables -A INPUT -m set --match-set firehol_level4 src -j DROP
                 ;;
-            10) 
+            10)
                 /sbin/ipset --create firehol_proxies nethash maxelem 4000000
                 iptables -A INPUT -m set --match-set firehol_proxies src -j DROP
                 ;;
-            11) 
+            11)
                 /sbin/ipset --create firehol_webclient nethash maxelem 6000
                 iptables -A INPUT -m set --match-set firehol_webclient src -j DROP
                 ;;
-            12) 
+            12)
                 /sbin/ipset --create firehol_webserver nethash maxelem 6000
                 iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
                 ;;
