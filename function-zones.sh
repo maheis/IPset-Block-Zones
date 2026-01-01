@@ -63,18 +63,54 @@ function create {
 
     for i in $auswahl; do
         case $i in
-            1)  /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000 ;;
-            2)  /sbin/ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6 ;;
-            3)  /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000 ;;
-            4)  /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000 ;;
-            5)  /sbin/ipset --create firehol_anonymous nethash maxelem 4000000 ;;
-            6)  /sbin/ipset --create firehol_level1 nethash maxelem 10000 ;;
-            7)  /sbin/ipset --create firehol_level2 nethash maxelem 30000 ;;
-            8)  /sbin/ipset --create firehol_level3 nethash maxelem 30000 ;;
-            9)  /sbin/ipset --create firehol_level4 nethash maxelem 160000 ;;
-            10) /sbin/ipset --create firehol_proxies nethash maxelem 4000000 ;;
-            11) /sbin/ipset --create firehol_webclient nethash maxelem 6000 ;;
-            12) /sbin/ipset --create firehol_webserver nethash maxelem 6000 ;;
+            1)  
+                /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
+                iptables -A INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
+                ;;
+            2)  
+                /sbin/ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6
+                ip6tables -A INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
+                ;;
+            3)  
+                /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000
+                iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
+                ;;
+            4)  
+                /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000
+                iptables -A INPUT -m set --match-set firehol_abusers_30d src -j DROP
+                ;;
+            5)  
+                /sbin/ipset --create firehol_anonymous nethash maxelem 4000000
+                iptables -A INPUT -m set --match-set firehol_anonymous src -j DROP
+                ;;
+            6)  
+                /sbin/ipset --create firehol_level1 nethash maxelem 10000
+                iptables -A INPUT -m set --match-set firehol_level1 src -j DROP
+                ;;
+            7)  
+                /sbin/ipset --create firehol_level2 nethash maxelem 30000
+                iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
+                ;;
+            8)  
+                /sbin/ipset --create firehol_level3 nethash maxelem 30000
+                iptables -A INPUT -m set --match-set firehol_level3 src -j DROP
+                ;;
+            9)  
+                /sbin/ipset --create firehol_level4 nethash maxelem 160000
+                iptables -A INPUT -m set --match-set firehol_level4 src -j DROP
+                ;;
+            10) 
+                /sbin/ipset --create firehol_proxies nethash maxelem 4000000
+                iptables -A INPUT -m set --match-set firehol_proxies src -j DROP
+                ;;
+            11) 
+                /sbin/ipset --create firehol_webclient nethash maxelem 6000
+                iptables -A INPUT -m set --match-set firehol_webclient src -j DROP
+                ;;
+            12) 
+                /sbin/ipset --create firehol_webserver nethash maxelem 6000
+                iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
+                ;;
             *)  echo "Ungültige Auswahl: $i" ;;
         esac
     done
@@ -962,46 +998,6 @@ function update {
         for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_webserver.netset | sed '/#/d')
         do /sbin/ipset --add firehol_webserver "$ZONE"
         done
-    fi
-}
-
-# Listen importieren
-function import {
-    if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
-        iptables -A INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
-    fi
-    if /sbin/ipset list blocked-countries-ipv6 &>/dev/null; then
-        ip6tables -A INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
-    fi
-    if /sbin/ipset list firehol_abusers_1d &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
-    fi
-    if /sbin/ipset list firehol_abusers_30d &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_abusers_30d src -j DROP
-    fi
-    if /sbin/ipset list firehol_anonymous &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_anonymous src -j DROP
-    fi
-    if /sbin/ipset list firehol_level1 &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_level1 src -j DROP
-    fi
-    if /sbin/ipset list firehol_level2 &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
-    fi
-    if /sbin/ipset list firehol_level3 &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_level3 src -j DROP
-    fi
-    if /sbin/ipset list firehol_level4 &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_level4 src -j DROP
-    fi
-    if /sbin/ipset list firehol_proxies &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_proxies src -j DROP
-    fi
-    if /sbin/ipset list firehol_webclient &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_webclient src -j DROP
-    fi
-    if /sbin/ipset list firehol_webserver &>/dev/null; then
-        iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
     fi
 }
 
