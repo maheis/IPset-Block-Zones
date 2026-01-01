@@ -23,10 +23,8 @@ function lists {
 function create {
     echo "Welche IPset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
     echo "1) blocked-countries-ipv4"
-    echo ""
-    echo ""
     echo "2) blocked-countries-ipv6"
-    echo ""
+    echo "   China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australia, Azerbaijan, Bangladesh, Belarus, Brazil, Bulgaria, Cambodia, Cayman Islands, Central African Republic, Chad, Chile, Colombia, Congo, Costa Rica, Cote d'Ivoire, Cuba, Djibouti, Ecuador, Egypt, El Salvador, Ethiopia, Fiji, Gabon, Gambia, Ghana, Guatemala, Honduras, Hong Kong, Indonesia, Iran, Islamic Republic, Iraq, Israel, Jordan, Kazakhstan, Kenya, Korea, Democratic People's Republic of, Korea, Republic of, Kuwait, Kyrgyzstan, Singapore, Lao People's Democratic Republic, Lebanon, Libyan Arab Jamahiriya, Madagascar, Malaysia, Mexico, Moldova, Republic of, Mongolia, Myanmar, New Zealand, Oman, Pakistan, Palestinian Territory, Occupied, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Puerto Rico, Qatar, Saudi Arabia, Seychelles, South Africa, Syrian Arab Republic, Taiwan, Tajikistan, Thailand, United Arab Emirates, Yemen, Viet Nam, Uzbekistan"
     echo ""
     echo "3) firehol_abusers_1d"
     echo "   An ipset made from blocklists that track abusers in the last 24 hours. (includes: botscout_1d cleantalk_new_1d cleantalk_updated_1d php_commenters_1d php_dictionary_1d php_harvesters_1d php_spammers_1d stopforumspam_1d)"
@@ -131,7 +129,7 @@ function create {
                 ;;
             12)
                 echo "Erstelle firehol_webserver"
-                
+
                 ipset --create firehol_webserver nethash maxelem 6000
                 iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
                 ;;
