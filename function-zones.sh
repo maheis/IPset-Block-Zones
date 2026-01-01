@@ -71,72 +71,84 @@ function create {
                 echo "Erstelle blocked-countries-ipv4"
 
                 ipset --create blocked-countries-ipv4 nethash maxelem 10000000
+                iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
                 iptables -A INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
                 ;;
             2)
                 echo "Erstelle blocked-countries-ipv6"
 
                 ipset --create blocked-countries-ipv6 nethash maxelem 10000000 family inet6
+                ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
                 ip6tables -A INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
                 ;;
             3)
                 echo "Erstelle firehol_abusers_1d"
 
                 ipset --create firehol_abusers_1d nethash maxelem 10000
+                iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 ;;
             4)
                 echo "Erstelle firehol_abusers_30d"
 
                 ipset --create firehol_abusers_30d nethash maxelem 400000
+                iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
                 iptables -A INPUT -m set --match-set firehol_abusers_30d src -j DROP
                 ;;
             5)
                 echo "Erstelle firehol_anonymous"
 
                 ipset --create firehol_anonymous nethash maxelem 4000000
+                iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
                 iptables -A INPUT -m set --match-set firehol_anonymous src -j DROP
                 ;;
             6)
                 echo "Erstelle firehol_level1"
 
                 ipset --create firehol_level1 nethash maxelem 10000
+                iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
                 iptables -A INPUT -m set --match-set firehol_level1 src -j DROP
                 ;;
             7)
                 echo "Erstelle firehol_level2"
                 
                 ipset --create firehol_level2 nethash maxelem 30000
+                iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
                 iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
                 ;;
             8)
                 echo "Erstelle firehol_level3"
 
                 ipset --create firehol_level3 nethash maxelem 30000
+                iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
                 iptables -A INPUT -m set --match-set firehol_level3 src -j DROP
                 ;;
             9)
                 echo "Erstelle firehol_level4"
 
                 ipset --create firehol_level4 nethash maxelem 160000
+                iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
                 iptables -A INPUT -m set --match-set firehol_level4 src -j DROP
                 ;;
             10)
                 echo "Erstelle firehol_proxies"
 
                 ipset --create firehol_proxies nethash maxelem 4000000
+                iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
                 iptables -A INPUT -m set --match-set firehol_proxies src -j DROP
                 ;;
             11)
                 echo "Erstelle firehol_webclient"
 
                 ipset --create firehol_webclient nethash maxelem 6000
+                iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
                 iptables -A INPUT -m set --match-set firehol_webclient src -j DROP
                 ;;
             12)
                 echo "Erstelle firehol_webserver"
 
                 ipset --create firehol_webserver nethash maxelem 6000
+                iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
                 iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
                 ;;
             *)  echo "Ungültige Auswahl: $i" ;;
@@ -144,7 +156,6 @@ function create {
     done
 
     update
-    lists
 }
 
 # Listen befüllen (kann dauern !)
