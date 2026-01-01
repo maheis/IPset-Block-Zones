@@ -1,6 +1,6 @@
 # 🇩🇪 IPset-Block-Zones
 
-In Progress...
+Dieses Skript ermöglicht das einfache Einrichten und Verwalten von IP-Blocklisten mit `ipset`, basierend auf den Blocklisten von [IPdeny](https://www.ipdeny.com) und [Firehole](https://iplists.firehol.org).
 
 ## Listen
 
@@ -8,6 +8,8 @@ In Progress...
 
 - blocked-countries-ipv4
 - blocked-countries-ipv6
+
+China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australia, Azerbaijan, Bangladesh, Belarus, Brazil, Bulgaria, Cambodia, Cayman Islands, Central African Republic, Chad, Chile, Colombia, Congo, Costa Rica, Cote d'Ivoire, Cuba, Djibouti, Ecuador, Egypt, El Salvador, Ethiopia, Fiji, Gabon, Gambia, Ghana, Guatemala, Honduras, Hong Kong, Indonesia, Iran, Islamic Republic, Iraq, Israel, Jordan, Kazakhstan, Kenya, Korea, Democratic People's Republic of, Korea, Republic of, Kuwait, Kyrgyzstan, Singapore, Lao People's Democratic Republic, Lebanon, Libyan Arab Jamahiriya, Madagascar, Malaysia, Mexico, Moldova, Republic of, Mongolia, Myanmar, New Zealand, Oman, Pakistan, Palestinian Territory, Occupied, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Puerto Rico, Qatar, Saudi Arabia, Seychelles, South Africa, Syrian Arab Republic, Taiwan, Tajikistan, Thailand, United Arab Emirates, Yemen, Viet Nam, Uzbekistan
 
 [Firehole](https://iplists.firehol.org)
 
@@ -51,11 +53,13 @@ sudo /etc/ipset/block-zones.sh lists       # Listen anzeigen
 sudo /etc/ipset/block-zones.sh create      # Auswahl Listen erstellen
 sudo /etc/ipset/block-zones.sh update      # Vorhandene Listen aktualisieren
 sudo /etc/ipset/block-zones.sh remove      # Alle Listen entfernen
-
 ```
 
 ## Automatisierung
 
 ```bash
 sudo crontab -e
+
+@daily /etc/ipset/block-zones.sh update
+
 ```
