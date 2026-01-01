@@ -1,5 +1,5 @@
 #!/bin/bash
-# Block-Zones mit /sbin/ipset und Firehol-Listen
+# Block-Zones mit ipset und Firehole/IPDeny
 
 mkdir -p /etc/ipset
 wget https://raw.githubusercontent.com/maheis/IPset-Block-Zones/refs/heads/main/block-zones.sh > /dev/null 2>&1
