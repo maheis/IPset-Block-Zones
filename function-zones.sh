@@ -27,7 +27,7 @@ function create {
 
      # Prüfe, ob Parameter übergeben wurden
     if [ $# -gt 0 ]; then
-        auswahl=$*
+        auswahl="$*"
     else
         echo "Welche /sbin/ipset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
         echo "1) blocked-countries-ipv4"

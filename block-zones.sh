@@ -25,7 +25,8 @@ case $ACTION in
         lists
         ;;
     create)
-        create
+        shift
+        create "$@"
         ;;
     update)
         update
