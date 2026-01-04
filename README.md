@@ -60,6 +60,8 @@ sudo /etc/ipset/block-zones.sh remove      # Alle Listen entfernen
 ```bash
 sudo crontab -e
 
+#Listennummern beim Booten anlegen und täglich aktualisieren
+@reboot /etc/ipset/block-zones.sh create 6 7 8
 @daily /etc/ipset/block-zones.sh update
 
 ```
