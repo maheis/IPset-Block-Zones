@@ -11,7 +11,12 @@ mv -f function-zones.sh /etc/ipset/function-zones.sh
 source /etc/ipset/function-zones.sh
 
 if [ "$1" == "" ]; then
-    echo "Usage: $0 {install|lists|create|update|import|remove}"
+    echo "Usage:"
+    echo "  install     # Benötigte Pakete installieren"
+    echo "  lists       # Listen anzeigen"
+    echo "  create      # Auswahl Listen erstellen"
+    echo "  update      # Vorhandene Listen aktualisieren"
+    echo "  remove      # Alle Listen entfernen"
     exit 1
 fi
 
@@ -25,7 +30,6 @@ case $ACTION in
         lists
         ;;
     create)
-        shift
         create "$@"
         ;;
     update)
@@ -38,7 +42,12 @@ case $ACTION in
         remove
         ;;
     *)
-        echo "Usage: $0 {install|lists|create|update|import|remove}"
+        echo "Usage:"
+        echo "  install     # Benötigte Pakete installieren"
+        echo "  lists       # Listen anzeigen"
+        echo "  create      # Auswahl Listen erstellen"
+        echo "  update      # Vorhandene Listen aktualisieren"
+        echo "  remove      # Alle Listen entfernen"
         exit 1
         ;;
 esac
