@@ -117,7 +117,7 @@ function create {
             7)
                 echo "Erstelle firehol_level2"
                 
-                /sbin/ipset --create firehol_level2 nethash maxelem 40000
+                /sbin/ipset --create firehol_level2 nethash maxelem 50000
                 /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
                 /sbin/iptables -A INPUT -m set --match-set firehol_level2 src -j DROP
                 ;;
