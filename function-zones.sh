@@ -89,7 +89,7 @@ function create {
             3)
                 echo "Erstelle firehol_abusers_1d"
 
-                /sbin/ipset --create firehol_abusers_1d nethash maxelem 10000
+                /sbin/ipset --create firehol_abusers_1d nethash maxelem 20000
                 /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 /sbin/iptables -A INPUT -m set --match-set firehol_abusers_1d src -j DROP
                 ;;
