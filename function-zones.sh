@@ -18,7 +18,7 @@ function lists {
     echo ""
     echo "Zugehörige /sbin/iptables-Regeln:"
     echo ""
-    /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries'
+    /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries|local-ipset-blocklist'
 }
 
 # Listen anlegen
