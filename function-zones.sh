@@ -64,6 +64,9 @@ function create {
         echo "12) firehol_webserver"
         echo "   A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)"
         echo ""
+        echo "13) local-ipset-blocklist"
+        echo "   Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!"
+        echo ""
         echo -n "Auswahl: "
         read -r auswahl
 
@@ -155,6 +158,14 @@ function create {
                 /sbin/ipset --create firehol_webserver nethash maxelem 6000
                 /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
                 /sbin/iptables -A INPUT -m set --match-set firehol_webserver src -j DROP
+                ;;
+            13)
+                echo "Erstelle local-ipset-blocklist"
+
+                touch /opt/local-ipset-blocklist.zone
+                /sbin/ipset --create local-ipset-blocklist nethash maxelem 500
+                /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
+                /sbin/iptables -A INPUT -m set --match-set local-ipset-blocklist src -j DROP
                 ;;
             *)  echo "Ungültige Auswahl: $i" ;;
         esac
@@ -1073,6 +1084,18 @@ function update {
         done
     fi
 
+    if /sbin/ipset list local-ipset-blocklist &>/dev/null; then
+        echo "Aktualisiere local-ipset-blocklist"
+
+        /sbin/ipset flush local-ipset-blocklist
+
+        if [ -f /opt/local-ipset-blocklist.zone ]; then
+            for ZONE in $(cat /opt/local-ipset-blocklist.zone | sed '/#/d')
+            do /sbin/ipset --add local-ipset-blocklist "$ZONE"
+            done
+        fi
+    fi
+    
     lists
 }
 
@@ -1151,6 +1174,12 @@ function remove {
 
         /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
         /sbin/ipset --destroy firehol_webserver
+    fi
+    if /sbin/ipset list local-ipset-blocklist &>/dev/null; then
+        echo "Entferne local-ipset-blocklist"
+
+        /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
+        /sbin/ipset --destroy local-ipset-blocklist
     fi
 
     lists

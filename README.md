@@ -33,6 +33,8 @@ China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australi
   - An IP blacklist made from blocklists that track IPs that a web client should never talk to. This list is to be used on top of firehol_level1. (includes: cybercrime)
 - firehol_webserver
   - A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)
+- local-ipset-blocklist
+  - Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!
 
 ## Erstinstallation
 
@@ -61,7 +63,7 @@ sudo /etc/ipset/block-zones.sh remove      # Alle Listen entfernen
 sudo crontab -e
 
 #Listennummern beim Booten anlegen und täglich aktualisieren
-@reboot /etc/ipset/block-zones.sh create 6 7 8
+@reboot /etc/ipset/block-zones.sh create 3 4 6 7 8 13
 @daily /etc/ipset/block-zones.sh update
 
 ```
