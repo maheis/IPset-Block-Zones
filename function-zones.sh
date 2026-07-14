@@ -1112,25 +1112,25 @@ function remove {
     if /sbin/ipset list blocked-countries-ipv6 &>/dev/null; then
         echo "Entferne blocked-countries-ipv6"
 
-        ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
+        /sbin/ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
         /sbin/ipset --destroy blocked-countries-ipv6
     fi
     if /sbin/ipset list firehol_abusers_1d &>/dev/null; then
         echo "Entferne firehol_abusers_1d"
 
-        ip6tables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
+        /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
         /sbin/ipset --destroy firehol_abusers_1d
     fi
     if /sbin/ipset list firehol_abusers_30d &>/dev/null; then
         echo "Entferne firehol_abusers_30d"
 
-        ip6tables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
+        /sbin/iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
         /sbin/ipset --destroy firehol_abusers_30d
     fi
     if /sbin/ipset list firehol_anonymous &>/dev/null; then
         echo "Entferne firehol_anonymous"
 
-        ip6tables -D INPUT -m set --match-set firehol_anonymous src -j DROP
+        /sbin/iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
         /sbin/ipset --destroy firehol_anonymous
     fi
     if /sbin/ipset list firehol_level1 &>/dev/null; then
