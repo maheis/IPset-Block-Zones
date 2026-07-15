@@ -33,7 +33,7 @@ case $ACTION in
         create "$@"
         ;;
     update)
-        update
+        update "$@"
         ;;
     import)
         import
