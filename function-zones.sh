@@ -120,7 +120,7 @@ function create {
                 ;;
             7)
                 echo "Erstelle firehol_level2"
-                
+
                 /sbin/ipset --create firehol_level2 nethash maxelem 50000
                 /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
                 /sbin/iptables -I INPUT 2 -m set --match-set firehol_level2 src -j DROP
@@ -190,7 +190,7 @@ function update {
             1)
                 if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
                     echo "Aktualisiere blocked-countries-ipv4"
-                    
+
                     /sbin/ipset flush blocked-countries-ipv4
 
                     # China
@@ -996,7 +996,7 @@ function update {
                     echo "Aktualisiere firehol_abusers_1d"
 
                     /sbin/ipset flush firehol_abusers_1d
-                    
+
                     for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_abusers_1d.netset | sed '/#/d')
                     do /sbin/ipset --add firehol_abusers_1d "$ZONE"
                     done
@@ -1027,7 +1027,7 @@ function update {
             6)
                 if /sbin/ipset list firehol_level1 &>/dev/null; then
                     echo "Aktualisiere firehol_level1"
-                    
+
                     /sbin/ipset flush firehol_level1
 
                     for ZONE in $(wget --quiet -O - https://iplists.firehol.org/files/firehol_level1.netset | sed '/#/d')
@@ -1116,7 +1116,7 @@ function update {
                 ;;
         esac
     done
-    
+
     lists
 }
 
