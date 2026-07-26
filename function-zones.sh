@@ -76,83 +76,12 @@ function create {
 
     for i in $auswahl; do
         case $i in
-            13)
-                echo "Erstelle local-ipset-blocklist"
+            1)
+                echo "Erstelle blocked-countries-ipv4"
 
-                touch /opt/local-ipset-blocklist.zone
-                /sbin/ipset --create local-ipset-blocklist nethash maxelem 500
-                /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set local-ipset-blocklist src -j DROP
-                ;;
-            12)
-                echo "Erstelle firehol_webserver"
-
-                /sbin/ipset --create firehol_webserver nethash maxelem 6000
-                /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_webserver src -j DROP
-                ;;
-            11)
-                echo "Erstelle firehol_webclient"
-
-                /sbin/ipset --create firehol_webclient nethash maxelem 6000
-                /sbin/iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_webclient src -j DROP
-                ;;
-            10)
-                echo "Erstelle firehol_proxies"
-
-                /sbin/ipset --create firehol_proxies nethash maxelem 4000000
-                /sbin/iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_proxies src -j DROP
-                ;;
-            9)
-                echo "Erstelle firehol_level4"
-
-                /sbin/ipset --create firehol_level4 nethash maxelem 160000
-                /sbin/iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level4 src -j DROP
-                ;;
-            8)
-                echo "Erstelle firehol_level3"
-
-                /sbin/ipset --create firehol_level3 nethash maxelem 30000
-                /sbin/iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level3 src -j DROP
-                ;;
-            7)
-                echo "Erstelle firehol_level2"
-
-                /sbin/ipset --create firehol_level2 nethash maxelem 50000
-                /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level2 src -j DROP
-                ;;
-            6)
-                echo "Erstelle firehol_level1"
-
-                /sbin/ipset --create firehol_level1 nethash maxelem 10000
-                /sbin/iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level1 src -j DROP
-                ;;
-            5)
-                echo "Erstelle firehol_anonymous"
-
-                /sbin/ipset --create firehol_anonymous nethash maxelem 4000000
-                /sbin/iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_anonymous src -j DROP
-                ;;
-            4)
-                echo "Erstelle firehol_abusers_30d"
-
-                /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000
-                /sbin/iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_abusers_30d src -j DROP
-                ;;
-            3)
-                echo "Erstelle firehol_abusers_1d"
-
-                /sbin/ipset --create firehol_abusers_1d nethash maxelem 20000
-                /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set firehol_abusers_1d src -j DROP
+                /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
+                /sbin/iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set blocked-countries-ipv4 src -j DROP
                 ;;
             2)
                 echo "Erstelle blocked-countries-ipv6"
@@ -161,12 +90,83 @@ function create {
                 ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
                 ip6tables -I INPUT 1 -m set --match-set blocked-countries-ipv6 src -j DROP
                 ;;
-            1)
-                echo "Erstelle blocked-countries-ipv4"
+            3)
+                echo "Erstelle firehol_abusers_1d"
 
-                /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
-                /sbin/iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
-                /sbin/iptables -I INPUT 1 -m set --match-set blocked-countries-ipv4 src -j DROP
+                /sbin/ipset --create firehol_abusers_1d nethash maxelem 20000
+                /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_abusers_1d src -j DROP
+                ;;
+            4)
+                echo "Erstelle firehol_abusers_30d"
+
+                /sbin/ipset --create firehol_abusers_30d nethash maxelem 400000
+                /sbin/iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_abusers_30d src -j DROP
+                ;;
+            5)
+                echo "Erstelle firehol_anonymous"
+
+                /sbin/ipset --create firehol_anonymous nethash maxelem 4000000
+                /sbin/iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_anonymous src -j DROP
+                ;;
+            6)
+                echo "Erstelle firehol_level1"
+
+                /sbin/ipset --create firehol_level1 nethash maxelem 10000
+                /sbin/iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level1 src -j DROP
+                ;;
+            7)
+                echo "Erstelle firehol_level2"
+
+                /sbin/ipset --create firehol_level2 nethash maxelem 50000
+                /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level2 src -j DROP
+                ;;
+            8)
+                echo "Erstelle firehol_level3"
+
+                /sbin/ipset --create firehol_level3 nethash maxelem 30000
+                /sbin/iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level3 src -j DROP
+                ;;
+            9)
+                echo "Erstelle firehol_level4"
+
+                /sbin/ipset --create firehol_level4 nethash maxelem 160000
+                /sbin/iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_level4 src -j DROP
+                ;;
+            10)
+                echo "Erstelle firehol_proxies"
+
+                /sbin/ipset --create firehol_proxies nethash maxelem 4000000
+                /sbin/iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_proxies src -j DROP
+                ;;
+            11)
+                echo "Erstelle firehol_webclient"
+
+                /sbin/ipset --create firehol_webclient nethash maxelem 6000
+                /sbin/iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_webclient src -j DROP
+                ;;
+            12)
+                echo "Erstelle firehol_webserver"
+
+                /sbin/ipset --create firehol_webserver nethash maxelem 6000
+                /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set firehol_webserver src -j DROP
+                ;;
+            13)
+                echo "Erstelle local-ipset-blocklist"
+
+                touch /opt/local-ipset-blocklist.zone
+                /sbin/ipset --create local-ipset-blocklist nethash maxelem 500
+                /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
+                /sbin/iptables -I INPUT 1 -m set --match-set local-ipset-blocklist src -j DROP
                 ;;
             *)  echo "Ungültige Auswahl: $i" ;;
         esac
@@ -1125,84 +1125,121 @@ function update {
 function remove {
     echo ""
 
-    if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
-        echo "Entferne blocked-countries-ipv4"
-
-        /sbin/iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
-        /sbin/ipset --destroy blocked-countries-ipv4
+    # Prüfe, ob Parameter übergeben wurden
+    if [ $# -gt 0 ]; then
+        auswahl="$*"
+    else
+        auswahl="1 2 3 4 5 6 7 8 9 10 11 12 13"
     fi
-    if /sbin/ipset list blocked-countries-ipv6 &>/dev/null; then
-        echo "Entferne blocked-countries-ipv6"
 
-        /sbin/ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
-        /sbin/ipset --destroy blocked-countries-ipv6
-    fi
-    if /sbin/ipset list firehol_abusers_1d &>/dev/null; then
-        echo "Entferne firehol_abusers_1d"
+    for i in $auswahl; do
+        case $i in
+            1)
+                if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
+                    echo "Entferne blocked-countries-ipv4"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
-        /sbin/ipset --destroy firehol_abusers_1d
-    fi
-    if /sbin/ipset list firehol_abusers_30d &>/dev/null; then
-        echo "Entferne firehol_abusers_30d"
+                    /sbin/iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
+                    /sbin/ipset --destroy blocked-countries-ipv4
+                fi
+                ;;
+            2)
+                if /sbin/ipset list blocked-countries-ipv6 &>/dev/null; then
+                    echo "Entferne blocked-countries-ipv6"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
-        /sbin/ipset --destroy firehol_abusers_30d
-    fi
-    if /sbin/ipset list firehol_anonymous &>/dev/null; then
-        echo "Entferne firehol_anonymous"
+                    /sbin/ip6tables -D INPUT -m set --match-set blocked-countries-ipv6 src -j DROP
+                    /sbin/ipset --destroy blocked-countries-ipv6
+                fi
+                ;;
+            3)
+                if /sbin/ipset list firehol_abusers_1d &>/dev/null; then
+                    echo "Entferne firehol_abusers_1d"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
-        /sbin/ipset --destroy firehol_anonymous
-    fi
-    if /sbin/ipset list firehol_level1 &>/dev/null; then
-        echo "Entferne firehol_level1"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_abusers_1d src -j DROP
+                    /sbin/ipset --destroy firehol_abusers_1d
+                fi
+                ;;
+            4)
+                if /sbin/ipset list firehol_abusers_30d &>/dev/null; then
+                    echo "Entferne firehol_abusers_30d"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
-        /sbin/ipset --destroy firehol_level1
-    fi
-    if /sbin/ipset list firehol_level2 &>/dev/null; then
-        echo "Entferne firehol_level2"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_abusers_30d src -j DROP
+                    /sbin/ipset --destroy firehol_abusers_30d
+                fi
+                ;;
+            5)
+                if /sbin/ipset list firehol_anonymous &>/dev/null; then
+                    echo "Entferne firehol_anonymous"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
-        /sbin/ipset --destroy firehol_level2
-    fi
-    if /sbin/ipset list firehol_level3 &>/dev/null; then
-        echo "Entferne firehol_level3"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_anonymous src -j DROP
+                    /sbin/ipset --destroy firehol_anonymous
+                fi
+                ;;
+            6)
+                if /sbin/ipset list firehol_level1 &>/dev/null; then
+                    echo "Entferne firehol_level1"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
-        /sbin/ipset --destroy firehol_level3
-    fi
-    if /sbin/ipset list firehol_level4 &>/dev/null; then
-        echo "Entferne firehol_level4"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_level1 src -j DROP
+                    /sbin/ipset --destroy firehol_level1
+                fi
+                ;;
+            7)
+                if /sbin/ipset list firehol_level2 &>/dev/null; then
+                    echo "Entferne firehol_level2"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
-        /sbin/ipset --destroy firehol_level4
-    fi
-    if /sbin/ipset list firehol_proxies &>/dev/null; then
-        echo "Entferne firehol_proxies"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_level2 src -j DROP
+                    /sbin/ipset --destroy firehol_level2
+                fi
+                ;;
+            8)
+                if /sbin/ipset list firehol_level3 &>/dev/null; then
+                    echo "Entferne firehol_level3"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
-        /sbin/ipset --destroy firehol_proxies
-    fi
-    if /sbin/ipset list firehol_webclient &>/dev/null; then
-        echo "Entferne firehol_webclient"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_level3 src -j DROP
+                    /sbin/ipset --destroy firehol_level3
+                fi
+                ;;
+            9)
+                if /sbin/ipset list firehol_level4 &>/dev/null; then
+                    echo "Entferne firehol_level4"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
-        /sbin/ipset --destroy firehol_webclient
-    fi
-    if /sbin/ipset list firehol_webserver &>/dev/null; then
-        echo "Entferne firehol_webserver"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_level4 src -j DROP
+                    /sbin/ipset --destroy firehol_level4
+                fi
+                ;;
+            10)
+                if /sbin/ipset list firehol_proxies &>/dev/null; then
+                    echo "Entferne firehol_proxies"
 
-        /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
-        /sbin/ipset --destroy firehol_webserver
-    fi
-    if /sbin/ipset list local-ipset-blocklist &>/dev/null; then
-        echo "Entferne local-ipset-blocklist"
+                    /sbin/iptables -D INPUT -m set --match-set firehol_proxies src -j DROP
+                    /sbin/ipset --destroy firehol_proxies
+                fi
+                ;;
+            11)
+                if /sbin/ipset list firehol_webclient &>/dev/null; then
+                    echo "Entferne firehol_webclient"
 
-        /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
-        /sbin/ipset --destroy local-ipset-blocklist
-    fi
+                    /sbin/iptables -D INPUT -m set --match-set firehol_webclient src -j DROP
+                    /sbin/ipset --destroy firehol_webclient
+                fi
+                ;;
+            12)
+                if /sbin/ipset list firehol_webserver &>/dev/null; then
+                    echo "Entferne firehol_webserver"
+
+                    /sbin/iptables -D INPUT -m set --match-set firehol_webserver src -j DROP
+                    /sbin/ipset --destroy firehol_webserver
+                fi
+                ;;
+            13)
+                if /sbin/ipset list local-ipset-blocklist &>/dev/null; then
+                    echo "Entferne local-ipset-blocklist"
+
+                    /sbin/iptables -D INPUT -m set --match-set local-ipset-blocklist src -j DROP
+                    /sbin/ipset --destroy local-ipset-blocklist
+                fi
+                ;;
+        esac
+    done
 
     lists
 }
