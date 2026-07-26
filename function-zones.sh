@@ -81,7 +81,7 @@ function create {
 
                 /sbin/ipset --create blocked-countries-ipv4 nethash maxelem 10000000
                 /sbin/iptables -D INPUT -m set --match-set blocked-countries-ipv4 src -j DROP
-                /sbin/iptables -I INPUT 1 -i eth0 -i eth0 -m set --match-set blocked-countries-ipv4 src -j DROP
+                /sbin/iptables -I INPUT 1 -i eth0 -m set --match-set blocked-countries-ipv4 src -j DROP
                 ;;
             2)
                 echo "Erstelle blocked-countries-ipv6"

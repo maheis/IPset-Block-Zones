@@ -1,6 +1,7 @@
 # 🇩🇪 IPset-Block-Zones
 
 Dieses Skript ermöglicht das einfache Einrichten und Verwalten von IP-Blocklisten mit `ipset`, basierend auf den Blocklisten von [IPdeny](https://www.ipdeny.com) und [Firehole](https://iplists.firehol.org).
+Geblockt wird eingehender Traffic auf dem Interface **eth0** von IP-Adressen, die in den ausgewählten Blocklisten enthalten sind. Dies kann helfen, unerwünschten Traffic zu reduzieren und die Sicherheit des Systems zu erhöhen.
 
 ## Listen
 
