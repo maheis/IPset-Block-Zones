@@ -28,7 +28,7 @@ function create {
 
      # Prüfe, ob Parameter übergeben wurden
     if [ $# -gt 0 ]; then
-        auswahl="$*"
+        auswahl="$(normalize_selection "$@")"
     else
         echo "Welche /sbin/ipset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
         echo "1) blocked-countries-ipv4"
@@ -181,7 +181,7 @@ function update {
 
     # Prüfe, ob Parameter übergeben wurden
     if [ $# -gt 0 ]; then
-        auswahl="$*"
+        auswahl="$(normalize_selection "$@")"
     else
         auswahl="1 2 3 4 5 6 7 8 9 10 11 12 13"
     fi
@@ -1127,7 +1127,7 @@ function remove {
 
     # Prüfe, ob Parameter übergeben wurden
     if [ $# -gt 0 ]; then
-        auswahl="$*"
+        auswahl="$(normalize_selection "$@")"
     else
         auswahl="1 2 3 4 5 6 7 8 9 10 11 12 13"
     fi
@@ -1289,4 +1289,9 @@ function add_local_ipset_blocklist_entry {
     fi
 
     update 13
+}
+
+# Auswahl sortieren: groesser zuerst, damit die Reihenfolge der Uebergabe egal ist
+function normalize_selection {
+    printf '%s\n' $* | sort -nr | tr '\n' ' ' | sed 's/[[:space:]]\+$//'
 }
