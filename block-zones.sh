@@ -16,6 +16,7 @@ if [ "$1" == "" ]; then
     echo "  lists       # Listen anzeigen"
     echo "  create      # Auswahl Listen erstellen"
     echo "  update      # Vorhandene Listen aktualisieren"
+    echo "  add <ip>    # Eintrag zur lokalen Blockliste hinzufügen"
     echo "  remove      # Alle Listen entfernen"
     exit 1
 fi
@@ -35,6 +36,9 @@ case $ACTION in
     update)
         update "$@"
         ;;
+    add)
+        add_local_ipset_blocklist_entry "$1"
+        ;;
     import)
         import
         ;;
@@ -47,6 +51,7 @@ case $ACTION in
         echo "  lists       # Listen anzeigen"
         echo "  create      # Auswahl Listen erstellen"
         echo "  update      # Vorhandene Listen aktualisieren"
+        echo "  add <ip>    # Eintrag zur lokalen Blockliste hinzufügen"
         echo "  remove      # Alle Listen entfernen"
         exit 1
         ;;

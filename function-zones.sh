@@ -1205,3 +1205,48 @@ function remove {
 
     lists
 }
+
+# Einen Eintrag zur lokalen Blockliste hinzufügen
+function add_local_ipset_blocklist_entry {
+    local entry="$1"
+    local octet
+    local ip
+    local mask
+
+    if [ -z "$entry" ]; then
+        echo "Bitte eine IPv4-Adresse oder IPv4/CIDR-Angabe uebergeben."
+        return 1
+    fi
+
+    if [[ "$entry" != */* ]]; then
+        entry="$entry/32"
+    fi
+
+    if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
+        echo "Ungueltiges Format: $entry"
+        echo "Erwartet wird eine IPv4-Adresse oder IPv4/CIDR-Angabe, z.B. 0.0.0.0/8 oder 0.0.0.0"
+        return 1
+    fi
+
+    ip="${entry%/*}"
+    mask="${entry#*/}"
+
+    IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
+    for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
+        if [ "$octet" -lt 0 ] || [ "$octet" -gt 255 ]; then
+            echo "Ungueltige IPv4-Adresse: $ip"
+            return 1
+        fi
+    done
+
+    if [ ! -f /opt/local-ipset-blocklist.zone ]; then
+        touch /opt/local-ipset-blocklist.zone
+    fi
+
+    if grep -Fxq "$ip/$mask" /opt/local-ipset-blocklist.zone; then
+        echo "Eintrag bereits vorhanden: $ip/$mask"
+    else
+        printf '%s\n' "$ip/$mask" >> /opt/local-ipset-blocklist.zone
+        echo "Eintrag hinzugefuegt: $ip/$mask"
+    fi
+}

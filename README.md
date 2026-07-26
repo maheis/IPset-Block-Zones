@@ -50,11 +50,13 @@ sudo chmod +x /etc/ipset/block-zones.sh
 ```bash
 sudo /etc/ipset/block-zones.sh
 
-sudo /etc/ipset/block-zones.sh install     # Benötigte Pakete installieren
-sudo /etc/ipset/block-zones.sh lists       # Listen anzeigen
-sudo /etc/ipset/block-zones.sh create      # Auswahl Listen erstellen
-sudo /etc/ipset/block-zones.sh update      # Vorhandene Listen aktualisieren
-sudo /etc/ipset/block-zones.sh remove      # Alle Listen entfernen
+sudo /etc/ipset/block-zones.sh install        # Benötigte Pakete installieren
+sudo /etc/ipset/block-zones.sh lists          # Listen anzeigen
+sudo /etc/ipset/block-zones.sh create         # Auswahl Listen erstellen
+sudo /etc/ipset/block-zones.sh update         # Vorhandene Listen aktualisieren
+sudo /etc/ipset/block-zones.sh add 0.0.0.0/8  # Eintrag zur lokalen Blockliste hinzufügen
+sudo /etc/ipset/block-zones.sh add 0.0.0.0    # Wird automatisch als 0.0.0.0/32 gespeichert
+sudo /etc/ipset/block-zones.sh remove         # Alle Listen entfernen
 ```
 
 ## Automatisierung
