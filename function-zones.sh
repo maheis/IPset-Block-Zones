@@ -1249,4 +1249,6 @@ function add_local_ipset_blocklist_entry {
         printf '%s\n' "$ip/$mask" >> /opt/local-ipset-blocklist.zone
         echo "Eintrag hinzugefuegt: $ip/$mask"
     fi
+
+    update 13
 }
