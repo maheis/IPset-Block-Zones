@@ -18,6 +18,7 @@ function lists {
     echo ""
     echo "Zugehörige /sbin/iptables-Regeln:"
     echo ""
+    echo "num   pkts bytes target     prot opt in     out     source               destination"
     /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries|local-ipset-blocklist'
 }
 
