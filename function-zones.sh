@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 IPTABLES_INTERFACE=$(cat /etc/ipset/iptables_interface.conf)
 if [ -z "$IPTABLES_INTERFACE" ]; then
     IPTABLES_INTERFACE="eth0"
