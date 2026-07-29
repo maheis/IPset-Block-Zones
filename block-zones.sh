@@ -20,6 +20,9 @@ case $ACTION in
     install)
         install
         ;;
+    config)
+        config
+        ;;
     lists)
         lists
         ;;
