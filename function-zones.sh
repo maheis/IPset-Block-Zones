@@ -16,7 +16,7 @@ function config {
     echo ""
 
     echo "Was soll Konfiguriert werden?"
-    echo "1) Netzwerkkarte, auf die die /sbin/iptables-Regeln angewendet werden sollen (Standard: ${IPTABLES_INTERFACE})"
+    echo "1) Netzwerkkarte, auf die die /sbin/iptables-Regeln angewendet werden sollen (Standard: eth0, Aktuell: ${IPTABLES_INTERFACE})"
     # echo "2) IPs die nicht geblockt werden sollen!"
     echo ""
     echo -n "Auswahl: "
