@@ -3,7 +3,7 @@
 # Install
 function install {
     echo "Installation der benötigten Pakete: /sbin/ipset, /sbin/iptables"
-    apt install /sbin/ipset /sbin/iptables
+    apt install ipset iptables
 }
 
 # Listen Abfragen
