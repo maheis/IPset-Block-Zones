@@ -41,6 +41,7 @@ case $ACTION in
     *)
         echo "Usage:"
         echo "  install     # Benötigte Pakete installieren"
+        echo "  config      # Konfiguration"
         echo "  lists       # Listen anzeigen"
         echo "  create      # Auswahl Listen erstellen"
         echo "  update      # Vorhandene Listen aktualisieren"
