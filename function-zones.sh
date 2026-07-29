@@ -223,7 +223,7 @@ function create {
         esac
     done
 
-    update
+    update $auswahl
 }
 
 # Listen befüllen (kann dauern !)
