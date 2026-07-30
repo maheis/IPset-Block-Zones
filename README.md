@@ -14,6 +14,8 @@ China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australi
 
 [Firehole](https://iplists.firehol.org)
 
+- local-ipset-whitelist
+  - Eine eigene lokale Whitelist. Diese kann dann mit eigenen IPs befüllt werden die dem Format
 - firehol_abusers_1d
   - An ipset made from blocklists that track abusers in the last 24 hours. (includes: botscout_1d cleantalk_new_1d cleantalk_updated_1d php_commenters_1d php_dictionary_1d php_harvesters_1d php_spammers_1d stopforumspam_1d)
 - firehol_abusers_30d
@@ -51,13 +53,15 @@ sudo chmod +x /etc/ipset/block-zones.sh
 ```bash
 sudo /etc/ipset/block-zones.sh
 
-sudo /etc/ipset/block-zones.sh install        # Benötigte Pakete installieren
-sudo /etc/ipset/block-zones.sh lists          # Listen anzeigen
-sudo /etc/ipset/block-zones.sh create         # Auswahl Listen erstellen
-sudo /etc/ipset/block-zones.sh update         # Vorhandene Listen aktualisieren
-sudo /etc/ipset/block-zones.sh add 0.0.0.0/8  # Eintrag zur lokalen Blockliste hinzufügen
-sudo /etc/ipset/block-zones.sh add 0.0.0.0    # Wird automatisch als 0.0.0.0/32 gespeichert
-sudo /etc/ipset/block-zones.sh remove         # Alle Listen entfernen
+sudo /etc/ipset/block-zones.sh install          # Benötigte Pakete installieren
+sudo /etc/ipset/block-zones.sh lists            # Listen anzeigen
+sudo /etc/ipset/block-zones.sh create           # Auswahl Listen erstellen
+sudo /etc/ipset/block-zones.sh update           # Vorhandene Listen aktualisieren
+sudo /etc/ipset/block-zones.sh block 10.0.0.0/8 # Eintrag zur lokalen Blockliste hinzufügen
+sudo /etc/ipset/block-zones.sh block 10.4.7.11  # Wird automatisch als 10.4.7.11/32 gespeichert
+sudo /etc/ipset/block-zones.sh allow 10.0.0.0/8 # Eintrag zur lokalen Whitelist hinzufügen
+sudo /etc/ipset/block-zones.sh allow 10.4.7.11  # Wird automatisch als 10.4.7.11/32 gespeichert
+sudo /etc/ipset/block-zones.sh remove           # Alle Listen entfernen
 ```
 
 ## Automatisierung
@@ -66,7 +70,7 @@ sudo /etc/ipset/block-zones.sh remove         # Alle Listen entfernen
 sudo crontab -e
 
 #Listennummern beim Booten anlegen und täglich aktualisieren
-@reboot /etc/ipset/block-zones.sh create 3 4 6 7 8 13
+@reboot /etc/ipset/block-zones.sh create 0 3 4 6 7 8 13
 @daily /etc/ipset/block-zones.sh update
 
 ```
