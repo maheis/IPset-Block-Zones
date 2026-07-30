@@ -23,6 +23,7 @@ Geblockt wird eingehender Traffic auf dem Interface **eth0** von IP-Adressen, di
   - An ipset made from blocklists that track attacks, during about the last 48 hours. (includes: blocklist_de dshield_1d greensnow)
 - firehol_level3
   - An ipset made from blocklists that track attacks, spyware, viruses. It includes IPs than have been reported or detected in the last 30 days. (includes: bruteforceblocker ciarmy dshield_30d myip vxvault)
+    (This List blocks Github, it's recommended to set these IPs on the Whitelist! 140.82.121.3, 140.82.121.4)
 - firehol_level4
   - An ipset made from blocklists that track attacks, but may include a large number of false positives. (includes: blocklist_net_ua botscout_30d cybercrime iblocklist_hijacked iblocklist_spyware iblocklist_webexploit)
 - firehol_proxies
