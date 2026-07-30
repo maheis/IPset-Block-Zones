@@ -12,6 +12,9 @@ fi
 
 LOCAL_IPSET_BLOCKLIST_FILE="${LOCAL_IPSET_BLOCKLIST_FILE:-/opt/local-ipset-blocklist.zone}"
 LOCAL_IPSET_WHITELIST_FILE="${LOCAL_IPSET_WHITELIST_FILE:-/opt/local-ipset-whitelist.zone}"
+if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
+    touch "$LOCAL_IPSET_WHITELIST_FILE"
+fi
 
 trim() {
     local value="$1"
@@ -243,12 +246,6 @@ function create {
 
     for i in $auswahl; do
         case $i in
-            0)
-                echo "Erstelle local-ipset-whitelist"
-
-                touch "$LOCAL_IPSET_WHITELIST_FILE"
-                /sbin/ipset --create local-ipset-whitelist nethash maxelem 500
-                ;;
             1)
                 echo "Erstelle local-ipset-blocklist"
 
@@ -342,20 +339,11 @@ function update {
     if [ $# -gt 0 ]; then
         auswahl="$(normalize_selection "$@")"
     else
-        auswahl="0 1 2 3 4 5 6 7 8 9 10 11"
+        auswahl="1 2 3 4 5 6 7 8 9 10 11"
     fi
 
     for i in $auswahl; do
         case $i in
-            0)
-                if /sbin/ipset list local-ipset-whitelist &>/dev/null; then
-                    echo "Aktualisiere local-ipset-whitelist"
-
-                    /sbin/ipset flush local-ipset-whitelist
-
-                    import_ipset_file_with_whitelist local-ipset-whitelist "$LOCAL_IPSET_WHITELIST_FILE"
-                fi
-                ;;
             1)
                 if /sbin/ipset list local-ipset-blocklist &>/dev/null; then
                     echo "Aktualisiere local-ipset-blocklist"
