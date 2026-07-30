@@ -477,45 +477,28 @@ function remove {
 # Einen Eintrag zur lokalen Blockliste hinzufügen
 function add_local_ipset_blocklist_entry {
     local entry="$1"
-    local octet
-    local ip
-    local mask
+    local normalized_entry
 
     if [ -z "$entry" ]; then
         echo "Bitte eine IPv4-Adresse oder IPv4/CIDR-Angabe uebergeben."
         return 1
     fi
 
-    if [[ "$entry" != */* ]]; then
-        entry="$entry/32"
-    fi
-
-    if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
+    normalized_entry="$(normalize_local_ipset_entry "$entry")" || {
         echo "Ungueltiges Format: $entry"
         echo "Erwartet wird eine IPv4-Adresse oder IPv4/CIDR-Angabe, z.B. 0.0.0.0/8 oder 0.0.0.0"
         return 1
-    fi
-
-    ip="${entry%/*}"
-    mask="${entry#*/}"
-
-    IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
-    for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
-        if [ "$octet" -lt 0 ] || [ "$octet" -gt 255 ]; then
-            echo "Ungueltige IPv4-Adresse: $ip"
-            return 1
-        fi
-    done
+    }
 
     if [ ! -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
         touch "$LOCAL_IPSET_BLOCKLIST_FILE"
     fi
 
-    if grep -Fxq "$ip/$mask" "$LOCAL_IPSET_BLOCKLIST_FILE"; then
-        echo "Eintrag bereits vorhanden: $ip/$mask"
+    if grep -Fxq "$normalized_entry" "$LOCAL_IPSET_BLOCKLIST_FILE"; then
+        echo "Eintrag bereits vorhanden: $normalized_entry"
     else
-        printf '%s\n' "$ip/$mask" >> "$LOCAL_IPSET_BLOCKLIST_FILE"
-        echo "Eintrag hinzugefuegt: $ip/$mask"
+        printf '%s\n' "$normalized_entry" >> "$LOCAL_IPSET_BLOCKLIST_FILE"
+        echo "Eintrag hinzugefuegt: $normalized_entry"
     fi
 
     update 1
@@ -524,45 +507,28 @@ function add_local_ipset_blocklist_entry {
 # Einen Eintrag zur lokalen Whitelist hinzufügen
 function add_local_ipset_whitelist_entry {
     local entry="$1"
-    local octet
-    local ip
-    local mask
+    local normalized_entry
 
     if [ -z "$entry" ]; then
         echo "Bitte eine IPv4-Adresse oder IPv4/CIDR-Angabe uebergeben."
         return 1
     fi
 
-    if [[ "$entry" != */* ]]; then
-        entry="$entry/32"
-    fi
-
-    if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
+    normalized_entry="$(normalize_local_ipset_entry "$entry")" || {
         echo "Ungueltiges Format: $entry"
         echo "Erwartet wird eine IPv4-Adresse oder IPv4/CIDR-Angabe, z.B. 0.0.0.0/8 oder 0.0.0.0"
         return 1
-    fi
-
-    ip="${entry%/*}"
-    mask="${entry#*/}"
-
-    IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
-    for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
-        if [ "$octet" -lt 0 ] || [ "$octet" -gt 255 ]; then
-            echo "Ungueltige IPv4-Adresse: $ip"
-            return 1
-        fi
-    done
+    }
 
     if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
         touch "$LOCAL_IPSET_WHITELIST_FILE"
     fi
 
-    if grep -Fxq "$ip/$mask" "$LOCAL_IPSET_WHITELIST_FILE"; then
-        echo "Eintrag bereits vorhanden: $ip/$mask"
+    if grep -Fxq "$normalized_entry" "$LOCAL_IPSET_WHITELIST_FILE"; then
+        echo "Eintrag bereits vorhanden: $normalized_entry"
     else
-        printf '%s\n' "$ip/$mask" >> "$LOCAL_IPSET_WHITELIST_FILE"
-        echo "Eintrag hinzugefuegt: $ip/$mask"
+        printf '%s\n' "$normalized_entry" >> "$LOCAL_IPSET_WHITELIST_FILE"
+        echo "Eintrag hinzugefuegt: $normalized_entry"
     fi
 
     cat "$LOCAL_IPSET_WHITELIST_FILE" | sort -u > "${LOCAL_IPSET_WHITELIST_FILE}.tmp"
@@ -576,6 +542,52 @@ function normalize_selection {
     printf '%s\n' $* | sort -nr | tr '\n' ' ' | sed 's/[[:space:]]\+$//'
 }
 
+# Normalisiert einen Eintrag für die lokale IPSET-Blockliste oder Whitelist.
+function normalize_local_ipset_entry() {
+    local entry="$1"
+    local ip
+    local mask
+    local octet
+
+    entry="$(trim "$entry")"
+
+    if [ -z "$entry" ]; then
+        return 1
+    fi
+
+    if [[ "$entry" == */* ]]; then
+        if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
+            return 1
+        fi
+
+        ip="${entry%/*}"
+        mask="${entry#*/}"
+    else
+        if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+            return 1
+        fi
+
+        ip="$entry"
+        mask=""
+    fi
+
+    IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
+    for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
+        if [ "$octet" -lt 0 ] || [ "$octet" -gt 255 ]; then
+            return 1
+        fi
+    done
+
+    if [ -n "$mask" ] && [ "$mask" = "32" ]; then
+        printf '%s\n' "$ip"
+    elif [ -n "$mask" ]; then
+        printf '%s\n' "$entry"
+    else
+        printf '%s\n' "$ip"
+    fi
+}
+
+#Whitelist-Filter-Funktionen
 function trim() {
     local value="$1"
     value="${value#"${value%%[![:space:]]*}"}"

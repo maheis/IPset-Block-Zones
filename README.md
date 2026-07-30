@@ -51,9 +51,9 @@ sudo /etc/ipset/block-zones.sh lists            # Listen anzeigen
 sudo /etc/ipset/block-zones.sh create           # Auswahl Listen erstellen
 sudo /etc/ipset/block-zones.sh update           # Vorhandene Listen aktualisieren
 sudo /etc/ipset/block-zones.sh block 10.0.0.0/8 # Eintrag zur lokalen Blockliste hinzufügen
-sudo /etc/ipset/block-zones.sh block 10.4.7.11  # Wird automatisch als 10.4.7.11/32 gespeichert
+sudo /etc/ipset/block-zones.sh block 10.4.7.11  # Eintrag zur lokalen Blockliste hinzufügen
 sudo /etc/ipset/block-zones.sh allow 10.0.0.0/8 # Eintrag zur lokalen Whitelist hinzufügen
-sudo /etc/ipset/block-zones.sh allow 10.4.7.11  # Wird automatisch als 10.4.7.11/32 gespeichert
+sudo /etc/ipset/block-zones.sh allow 10.4.7.11  # Eintrag zur lokalen Whitelist hinzufügen
 sudo /etc/ipset/block-zones.sh remove           # Alle Listen entfernen
 ```
 
