@@ -1,21 +1,16 @@
 # 🇩🇪 IPset-Block-Zones
 
-Dieses Skript ermöglicht das einfache Einrichten und Verwalten von IP-Blocklisten mit `ipset`, basierend auf den Blocklisten von [IPdeny](https://www.ipdeny.com) und [Firehole](https://iplists.firehol.org).
+Dieses Skript ermöglicht das einfache Einrichten und Verwalten von IP-Blocklisten mit `ipset`, basierend auf den Blocklisten von [Firehole](https://iplists.firehol.org) und lässt sich leicht mit anderen Blocklisten erweitern. Meldet euch bitte, wenn ihr weitere Blocklisten kennt, die hier sinnvoll ergänzt werden können.
 Geblockt wird eingehender Traffic auf dem Interface **eth0** von IP-Adressen, die in den ausgewählten Blocklisten enthalten sind. Dies kann helfen, unerwünschten Traffic zu reduzieren und die Sicherheit des Systems zu erhöhen.
 
 ## Listen
-
-[IPdeny](https://www.ipdeny.com)
-
-- blocked-countries-ipv4
-- blocked-countries-ipv6
-
-China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australia, Azerbaijan, Bangladesh, Belarus, Brazil, Bulgaria, Cambodia, Cayman Islands, Central African Republic, Chad, Chile, Colombia, Congo, Costa Rica, Cote d'Ivoire, Cuba, Djibouti, Ecuador, Egypt, El Salvador, Ethiopia, Fiji, Gabon, Gambia, Ghana, Guatemala, Honduras, Hong Kong, Indonesia, Iran, Islamic Republic, Iraq, Israel, Jordan, Kazakhstan, Kenya, Korea, Democratic People's Republic of, Korea, Republic of, Kuwait, Kyrgyzstan, Singapore, Lao People's Democratic Republic, Lebanon, Libyan Arab Jamahiriya, Madagascar, Malaysia, Mexico, Moldova, Republic of, Mongolia, Myanmar, New Zealand, Oman, Pakistan, Palestinian Territory, Occupied, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Puerto Rico, Qatar, Saudi Arabia, Seychelles, South Africa, Syrian Arab Republic, Taiwan, Tajikistan, Thailand, United Arab Emirates, Yemen, Viet Nam, Uzbekistan
 
 [Firehole](https://iplists.firehol.org)
 
 - local-ipset-whitelist
   - Eine eigene lokale Whitelist. Diese kann dann mit eigenen IPs befüllt werden die dem Format
+- local-ipset-blocklist
+  - Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!
 - firehol_abusers_1d
   - An ipset made from blocklists that track abusers in the last 24 hours. (includes: botscout_1d cleantalk_new_1d cleantalk_updated_1d php_commenters_1d php_dictionary_1d php_harvesters_1d php_spammers_1d stopforumspam_1d)
 - firehol_abusers_30d
@@ -36,8 +31,6 @@ China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australi
   - An IP blacklist made from blocklists that track IPs that a web client should never talk to. This list is to be used on top of firehol_level1. (includes: cybercrime)
 - firehol_webserver
   - A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)
-- local-ipset-blocklist
-  - Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!
 
 ## Erstinstallation
 
@@ -69,8 +62,8 @@ sudo /etc/ipset/block-zones.sh remove           # Alle Listen entfernen
 ```bash
 sudo crontab -e
 
-#Listennummern beim Booten anlegen und täglich aktualisieren
-@reboot /etc/ipset/block-zones.sh create 0 3 4 6 7 8 13
+#Listennummern beim Booten anlegen und täglich aktualisieren; Beispiel bzw. meine Konfiguration:
+@reboot /etc/ipset/block-zones.sh create 0 1 2 3 5 6 7
 @daily /etc/ipset/block-zones.sh update
 
 ```

@@ -1,75 +1,127 @@
 #!/bin/bash
 
-IPTABLES_INTERFACE=$(cat /etc/ipset/iptables_interface.conf)
+if [ -r /etc/ipset/iptables_interface.conf ]; then
+    IPTABLES_INTERFACE=$(cat /etc/ipset/iptables_interface.conf)
+else
+    IPTABLES_INTERFACE="eth0"
+fi
+
 if [ -z "$IPTABLES_INTERFACE" ]; then
     IPTABLES_INTERFACE="eth0"
 fi
+
 LOCAL_IPSET_BLOCKLIST_FILE="${LOCAL_IPSET_BLOCKLIST_FILE:-/opt/local-ipset-blocklist.zone}"
 LOCAL_IPSET_WHITELIST_FILE="${LOCAL_IPSET_WHITELIST_FILE:-/opt/local-ipset-whitelist.zone}"
 
-function /sbin/ipset {
-    if [ "$1" = "--add" ] && [ $# -ge 3 ] && [ "$2" != "local-ipset-whitelist" ]; then
-        if zone_is_whitelisted "$3"; then
-            echo "Überspringe $3 wegen local-ipset-whitelist"
+trim() {
+    local value="$1"
+    value="${value#"${value%%[![:space:]]*}"}"
+    value="${value%"${value##*[![:space:]]}"}"
+    printf '%s' "$value"
+}
+
+is_whitelisted_entry() {
+    local candidate="$1"
+    shift
+
+    local rule
+    local normalized_candidate="$candidate"
+    local normalized_rule
+
+    if [[ "$normalized_candidate" != */* ]]; then
+        normalized_candidate="${normalized_candidate}/32"
+    fi
+
+    for rule in "$@"; do
+        normalized_rule="$rule"
+        if [[ "$normalized_rule" != */* ]]; then
+            normalized_rule="${normalized_rule}/32"
+        fi
+
+        if [ "$normalized_candidate" = "$normalized_rule" ]; then
             return 0
         fi
-    fi
+    done
 
-    command /sbin/ipset "$@"
+    return 1
 }
 
-function normalize_local_ipset_entry {
-    local entry="$1"
+filter_entries_against_whitelist() {
+    local input_file="$1"
+    local whitelist_file="$2"
+    local output_file="$3"
+    local set_name="$4"
+    local line
+    local -a whitelist_entries=()
 
-    if [[ "$entry" != */* ]]; then
-        entry="$entry/32"
+    : > "$output_file"
+
+    if [ -f "$whitelist_file" ]; then
+        while IFS= read -r line || [ -n "$line" ]; do
+            line="${line%%#*}"
+            line="$(trim "$line")"
+            [ -n "$line" ] || continue
+            whitelist_entries+=("$line")
+        done < "$whitelist_file"
     fi
 
-    printf '%s\n' "$entry"
+    while IFS= read -r line || [ -n "$line" ]; do
+        line="${line%%#*}"
+        line="$(trim "$line")"
+        [ -n "$line" ] || continue
+
+        if is_whitelisted_entry "$line" "${whitelist_entries[@]}"; then
+            continue
+        fi
+
+        if [ -n "$set_name" ]; then
+            printf 'add %s %s\n' "$set_name" "$line" >> "$output_file"
+        else
+            printf '%s\n' "$line" >> "$output_file"
+        fi
+    done < "$input_file"
 }
 
-function zone_is_whitelisted {
-    local zone
-    local normalized_zone
+function wget {
+    if [ "$1" = "--quiet" ] && [ "$2" = "-O" ] && [ "$3" = "-" ] && [ $# -ge 4 ]; then
+        local feed_url="${@: -1}"
+        local feed_file
 
-    if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
+        feed_file="$(mktemp)"
+
+        if ! command wget --quiet -O "$feed_file" "$feed_url"; then
+            rm -f "$feed_file"
+            return 1
+        fi
+
+        filtered_file="$(mktemp)"
+        filter_entries_against_whitelist "$feed_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file"
+        cat "$filtered_file"
+
+        rm -f "$filtered_file" "$feed_file"
+        return 0
+    fi
+
+    command wget "$@"
+}
+
+function import_ipset_file_with_whitelist {
+    local set_name="$1"
+    local source_file="$2"
+    local filtered_file
+
+    if [ ! -f "$source_file" ]; then
         return 1
     fi
 
-    if command -v python3 >/dev/null 2>&1; then
-        python3 - "$1" "$LOCAL_IPSET_WHITELIST_FILE" <<'PY'
-import ipaddress
-import sys
+    filtered_file="$(mktemp)"
+    filter_entries_against_whitelist "$source_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file" "$set_name"
 
-zone = sys.argv[1].strip()
-whitelist_file = sys.argv[2]
-
-try:
-    zone_network = ipaddress.ip_network(zone, strict=False)
-except ValueError:
-    sys.exit(1)
-
-with open(whitelist_file, encoding="utf-8") as handle:
-    for raw_line in handle:
-        line = raw_line.split("#", 1)[0].strip()
-        if not line:
-            continue
-
-        try:
-            whitelist_network = ipaddress.ip_network(line, strict=False)
-        except ValueError:
-            continue
-
-        if zone_network.version == whitelist_network.version and zone_network.overlaps(whitelist_network):
-            sys.exit(0)
-
-sys.exit(1)
-PY
-        return $?
+    if [ -s "$filtered_file" ]; then
+        /sbin/ipset restore -exist < "$filtered_file"
     fi
 
-    normalized_zone="$(normalize_local_ipset_entry "$1")"
-    grep -Fxq "$normalized_zone" "$LOCAL_IPSET_WHITELIST_FILE"
+    rm -f "$filtered_file"
 }
 
 # Install
@@ -322,11 +374,7 @@ function update {
 
                     /sbin/ipset flush local-ipset-whitelist
 
-                    if [ -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
-                        for ZONE in $(cat "$LOCAL_IPSET_WHITELIST_FILE" | sed '/#/d')
-                        do /sbin/ipset --add local-ipset-whitelist "$ZONE"
-                        done
-                    fi
+                    import_ipset_file_with_whitelist local-ipset-whitelist "$LOCAL_IPSET_WHITELIST_FILE"
                 fi
                 ;;
             1)
@@ -1249,11 +1297,7 @@ function update {
 
                     /sbin/ipset flush local-ipset-blocklist
 
-                    if [ -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
-                        for ZONE in $(cat "$LOCAL_IPSET_BLOCKLIST_FILE" | sed '/#/d')
-                        do /sbin/ipset --add local-ipset-blocklist "$ZONE"
-                        done
-                    fi
+                    import_ipset_file_with_whitelist local-ipset-blocklist "$LOCAL_IPSET_BLOCKLIST_FILE"
                 fi
                 ;;
         esac
@@ -1483,7 +1527,7 @@ function add_local_ipset_whitelist_entry {
         echo "Eintrag hinzugefuegt: $ip/$mask"
     fi
 
-    update 14
+    update 0
 }
 
 # Auswahl sortieren: groesser zuerst, damit die Reihenfolge der Uebergabe egal ist
