@@ -35,8 +35,11 @@ case $ACTION in
     remove)
         remove "$@"
         ;;
-    add)
+    block)
         add_local_ipset_blocklist_entry "$1"
+        ;;
+    allow)
+        add_local_ipset_whitelist_entry "$1"
         ;;
     *)
         echo "Usage:"
@@ -46,7 +49,8 @@ case $ACTION in
         echo "  create      # Auswahl Listen erstellen"
         echo "  update      # Vorhandene Listen aktualisieren"
         echo "  remove      # Alle Listen entfernen"
-        echo "  add <ip>    # Eintrag zur lokalen Blockliste hinzufügen"
+        echo "  block <ip>  # Eintrag zur lokalen Blockliste hinzufügen"
+        echo "  allow <ip>  # Eintrag zur lokalen Whitelist hinzufügen"
         exit 1
         ;;
 esac
