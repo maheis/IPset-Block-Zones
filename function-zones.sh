@@ -5,127 +5,18 @@ if [ -r /etc/ipset/iptables_interface.conf ]; then
 else
     IPTABLES_INTERFACE="eth0"
 fi
-
 if [ -z "$IPTABLES_INTERFACE" ]; then
     IPTABLES_INTERFACE="eth0"
 fi
 
 LOCAL_IPSET_BLOCKLIST_FILE="${LOCAL_IPSET_BLOCKLIST_FILE:-/opt/local-ipset-blocklist.zone}"
+if [ ! -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
+    touch "$LOCAL_IPSET_BLOCKLIST_FILE"
+fi
 LOCAL_IPSET_WHITELIST_FILE="${LOCAL_IPSET_WHITELIST_FILE:-/opt/local-ipset-whitelist.zone}"
 if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
     touch "$LOCAL_IPSET_WHITELIST_FILE"
 fi
-
-trim() {
-    local value="$1"
-    value="${value#"${value%%[![:space:]]*}"}"
-    value="${value%"${value##*[![:space:]]}"}"
-    printf '%s' "$value"
-}
-
-is_whitelisted_entry() {
-    local candidate="$1"
-    shift
-
-    local rule
-    local normalized_candidate="$candidate"
-    local normalized_rule
-
-    if [[ "$normalized_candidate" != */* ]]; then
-        normalized_candidate="${normalized_candidate}/32"
-    fi
-
-    for rule in "$@"; do
-        normalized_rule="$rule"
-        if [[ "$normalized_rule" != */* ]]; then
-            normalized_rule="${normalized_rule}/32"
-        fi
-
-        if [ "$normalized_candidate" = "$normalized_rule" ]; then
-            return 0
-        fi
-    done
-
-    return 1
-}
-
-filter_entries_against_whitelist() {
-    local input_file="$1"
-    local whitelist_file="$2"
-    local output_file="$3"
-    local set_name="$4"
-    local line
-    local -a whitelist_entries=()
-
-    : > "$output_file"
-
-    if [ -f "$whitelist_file" ]; then
-        while IFS= read -r line || [ -n "$line" ]; do
-            line="${line%%#*}"
-            line="$(trim "$line")"
-            [ -n "$line" ] || continue
-            whitelist_entries+=("$line")
-        done < "$whitelist_file"
-    fi
-
-    while IFS= read -r line || [ -n "$line" ]; do
-        line="${line%%#*}"
-        line="$(trim "$line")"
-        [ -n "$line" ] || continue
-
-        if is_whitelisted_entry "$line" "${whitelist_entries[@]}"; then
-            continue
-        fi
-
-        if [ -n "$set_name" ]; then
-            printf 'add %s %s\n' "$set_name" "$line" >> "$output_file"
-        else
-            printf '%s\n' "$line" >> "$output_file"
-        fi
-    done < "$input_file"
-}
-
-function wget {
-    if [ "$1" = "--quiet" ] && [ "$2" = "-O" ] && [ "$3" = "-" ] && [ $# -ge 4 ]; then
-        local feed_url="${@: -1}"
-        local feed_file
-
-        feed_file="$(mktemp)"
-
-        if ! command wget --quiet -O "$feed_file" "$feed_url"; then
-            rm -f "$feed_file"
-            return 1
-        fi
-
-        filtered_file="$(mktemp)"
-        filter_entries_against_whitelist "$feed_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file"
-        cat "$filtered_file"
-
-        rm -f "$filtered_file" "$feed_file"
-        return 0
-    fi
-
-    command wget "$@"
-}
-
-function import_ipset_file_with_whitelist {
-    local set_name="$1"
-    local source_file="$2"
-    local filtered_file
-
-    if [ ! -f "$source_file" ]; then
-        return 1
-    fi
-
-    filtered_file="$(mktemp)"
-    filter_entries_against_whitelist "$source_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file" "$set_name"
-
-    if [ -s "$filtered_file" ]; then
-        /sbin/ipset restore -exist < "$filtered_file"
-    fi
-
-    rm -f "$filtered_file"
-}
 
 # Install
 function install {
@@ -674,10 +565,124 @@ function add_local_ipset_whitelist_entry {
         echo "Eintrag hinzugefuegt: $ip/$mask"
     fi
 
-    update 0
+    cat "$LOCAL_IPSET_WHITELIST_FILE" | sort -u > "${LOCAL_IPSET_WHITELIST_FILE}.tmp"
+    mv "${LOCAL_IPSET_WHITELIST_FILE}.tmp" "$LOCAL_IPSET_WHITELIST_FILE"
+
+    cat "$LOCAL_IPSET_WHITELIST_FILE"
 }
 
 # Auswahl sortieren: groesser zuerst, damit die Reihenfolge der Uebergabe egal ist
 function normalize_selection {
     printf '%s\n' $* | sort -nr | tr '\n' ' ' | sed 's/[[:space:]]\+$//'
+}
+
+function trim() {
+    local value="$1"
+    value="${value#"${value%%[![:space:]]*}"}"
+    value="${value%"${value##*[![:space:]]}"}"
+    printf '%s' "$value"
+}
+
+function is_whitelisted_entry() {
+    local candidate="$1"
+    shift
+
+    local rule
+    local normalized_candidate="$candidate"
+    local normalized_rule
+
+    if [[ "$normalized_candidate" != */* ]]; then
+        normalized_candidate="${normalized_candidate}/32"
+    fi
+
+    for rule in "$@"; do
+        normalized_rule="$rule"
+        if [[ "$normalized_rule" != */* ]]; then
+            normalized_rule="${normalized_rule}/32"
+        fi
+
+        if [ "$normalized_candidate" = "$normalized_rule" ]; then
+            return 0
+        fi
+    done
+
+    return 1
+}
+
+function filter_entries_against_whitelist() {
+    local input_file="$1"
+    local whitelist_file="$2"
+    local output_file="$3"
+    local set_name="$4"
+    local line
+    local -a whitelist_entries=()
+
+    : > "$output_file"
+
+    if [ -f "$whitelist_file" ]; then
+        while IFS= read -r line || [ -n "$line" ]; do
+            line="${line%%#*}"
+            line="$(trim "$line")"
+            [ -n "$line" ] || continue
+            whitelist_entries+=("$line")
+        done < "$whitelist_file"
+    fi
+
+    while IFS= read -r line || [ -n "$line" ]; do
+        line="${line%%#*}"
+        line="$(trim "$line")"
+        [ -n "$line" ] || continue
+
+        if is_whitelisted_entry "$line" "${whitelist_entries[@]}"; then
+            continue
+        fi
+
+        if [ -n "$set_name" ]; then
+            printf 'add %s %s\n' "$set_name" "$line" >> "$output_file"
+        else
+            printf '%s\n' "$line" >> "$output_file"
+        fi
+    done < "$input_file"
+}
+
+function wget {
+    if [ "$1" = "--quiet" ] && [ "$2" = "-O" ] && [ "$3" = "-" ] && [ $# -ge 4 ]; then
+        local feed_url="${@: -1}"
+        local feed_file
+
+        feed_file="$(mktemp)"
+
+        if ! command wget --quiet -O "$feed_file" "$feed_url"; then
+            rm -f "$feed_file"
+            return 1
+        fi
+
+        filtered_file="$(mktemp)"
+        filter_entries_against_whitelist "$feed_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file"
+        cat "$filtered_file"
+
+        rm -f "$filtered_file" "$feed_file"
+        return 0
+    fi
+
+    command wget "$@"
+}
+
+function import_ipset_file_with_whitelist {
+    local set_name="$1"
+    local source_file="$2"
+    local filtered_file
+
+    if [ ! -f "$source_file" ]; then
+        return 1
+    fi
+
+    filtered_file="$(mktemp)"
+    filter_entries_against_whitelist "$source_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file" "$set_name"
+
+    if [ -s "$filtered_file" ]; then
+        /sbin/ipset restore -exist < "$filtered_file"
+    fi
+
+    rm -f "$filtered_file"
 }
