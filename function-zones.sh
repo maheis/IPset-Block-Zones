@@ -4,6 +4,73 @@ IPTABLES_INTERFACE=$(cat /etc/ipset/iptables_interface.conf)
 if [ -z "$IPTABLES_INTERFACE" ]; then
     IPTABLES_INTERFACE="eth0"
 fi
+LOCAL_IPSET_BLOCKLIST_FILE="${LOCAL_IPSET_BLOCKLIST_FILE:-/opt/local-ipset-blocklist.zone}"
+LOCAL_IPSET_WHITELIST_FILE="${LOCAL_IPSET_WHITELIST_FILE:-/opt/local-ipset-whitelist.zone}"
+
+function /sbin/ipset {
+    if [ "$1" = "--add" ] && [ $# -ge 3 ] && [ "$2" != "local-ipset-whitelist" ]; then
+        if zone_is_whitelisted "$3"; then
+            echo "Überspringe $3 wegen local-ipset-whitelist"
+            return 0
+        fi
+    fi
+
+    command /sbin/ipset "$@"
+}
+
+function normalize_local_ipset_entry {
+    local entry="$1"
+
+    if [[ "$entry" != */* ]]; then
+        entry="$entry/32"
+    fi
+
+    printf '%s\n' "$entry"
+}
+
+function zone_is_whitelisted {
+    local zone
+    local normalized_zone
+
+    if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
+        return 1
+    fi
+
+    if command -v python3 >/dev/null 2>&1; then
+        python3 - "$1" "$LOCAL_IPSET_WHITELIST_FILE" <<'PY'
+import ipaddress
+import sys
+
+zone = sys.argv[1].strip()
+whitelist_file = sys.argv[2]
+
+try:
+    zone_network = ipaddress.ip_network(zone, strict=False)
+except ValueError:
+    sys.exit(1)
+
+with open(whitelist_file, encoding="utf-8") as handle:
+    for raw_line in handle:
+        line = raw_line.split("#", 1)[0].strip()
+        if not line:
+            continue
+
+        try:
+            whitelist_network = ipaddress.ip_network(line, strict=False)
+        except ValueError:
+            continue
+
+        if zone_network.version == whitelist_network.version and zone_network.overlaps(whitelist_network):
+            sys.exit(0)
+
+sys.exit(1)
+PY
+        return $?
+    fi
+
+    normalized_zone="$(normalize_local_ipset_entry "$1")"
+    grep -Fxq "$normalized_zone" "$LOCAL_IPSET_WHITELIST_FILE"
+}
 
 # Install
 function install {
@@ -70,7 +137,7 @@ function lists {
     echo "Zugehörige /sbin/iptables-Regeln:"
     echo ""
     echo "num   pkts bytes target     prot opt in     out     source               destination"
-    /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries|local-ipset-blocklist'
+    /sbin/iptables -L -n -v --line-numbers | grep -E 'firehol|blocked-countries|local-ipset-blocklist|local-ipset-whitelist'
 }
 
 # Listen anlegen
@@ -82,6 +149,10 @@ function create {
         auswahl="$(normalize_selection "$@")"
     else
         echo "Welche /sbin/ipset-Listen sollen erstellt werden? (Mehrfachauswahl mit Leerzeichen, z.B. 1 3 5)"
+        echo ""
+        echo "0) local-ipset-whitelist"
+        echo "   Eine eigene lokale Whitelist. Diese Einträge werden beim Import uebersprungen. Liste muss unter ${LOCAL_IPSET_WHITELIST_FILE} erstellt werden!"
+        echo ""
         echo "1) blocked-countries-ipv4"
         echo "2) blocked-countries-ipv6"
         echo "   China, Russia, Afghanistan, Albania, Algeria, Andorra, Angola, Armenia, Australia, Azerbaijan, Bangladesh, Belarus, Brazil, Bulgaria, Cambodia, Cayman Islands, Central African Republic, Chad, Chile, Colombia, Congo, Costa Rica, Cote d'Ivoire, Cuba, Djibouti, Ecuador, Egypt, El Salvador, Ethiopia, Fiji, Gabon, Gambia, Ghana, Guatemala, Honduras, Hong Kong, Indonesia, Iran, Islamic Republic, Iraq, Israel, Jordan, Kazakhstan, Kenya, Korea, Democratic People's Republic of, Korea, Republic of, Kuwait, Kyrgyzstan, Singapore, Lao People's Democratic Republic, Lebanon, Libyan Arab Jamahiriya, Madagascar, Malaysia, Mexico, Moldova, Republic of, Mongolia, Myanmar, New Zealand, Oman, Pakistan, Palestinian Territory, Occupied, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Puerto Rico, Qatar, Saudi Arabia, Seychelles, South Africa, Syrian Arab Republic, Taiwan, Tajikistan, Thailand, United Arab Emirates, Yemen, Viet Nam, Uzbekistan"
@@ -117,7 +188,7 @@ function create {
         echo "   A web server IP blacklist made from blocklists that track IPs that should never be used by your web users. (This list includes IPs that are servers hosting malware, bots, etc or users having a long criminal history. This list is to be used on top of firehol_level1, firehol_level2, firehol_level3 and possibly firehol_proxies or firehol_anonymous) . (includes: myip stopforumspam_toxic)"
         echo ""
         echo "13) local-ipset-blocklist"
-        echo "   Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!"
+        echo "   Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter ${LOCAL_IPSET_BLOCKLIST_FILE} erstellt werden!"
         echo ""
         echo -n "Auswahl: "
         read -r auswahl
@@ -127,6 +198,12 @@ function create {
 
     for i in $auswahl; do
         case $i in
+            0)
+                echo "Erstelle local-ipset-whitelist"
+
+                touch "$LOCAL_IPSET_WHITELIST_FILE"
+                /sbin/ipset --create local-ipset-whitelist nethash maxelem 500
+                ;;
             1)
                 echo "Erstelle blocked-countries-ipv4"
 
@@ -214,7 +291,7 @@ function create {
             13)
                 echo "Erstelle local-ipset-blocklist"
 
-                touch /opt/local-ipset-blocklist.zone
+                touch "$LOCAL_IPSET_BLOCKLIST_FILE"
                 /sbin/ipset --create local-ipset-blocklist nethash maxelem 500
                 /sbin/iptables -D INPUT -i "$IPTABLES_INTERFACE" -m set --match-set local-ipset-blocklist src -j DROP
                 /sbin/iptables -I INPUT 1 -i "$IPTABLES_INTERFACE" -m set --match-set local-ipset-blocklist src -j DROP
@@ -234,11 +311,24 @@ function update {
     if [ $# -gt 0 ]; then
         auswahl="$(normalize_selection "$@")"
     else
-        auswahl="1 2 3 4 5 6 7 8 9 10 11 12 13"
+        auswahl="0 1 2 3 4 5 6 7 8 9 10 11 12 13"
     fi
 
     for i in $auswahl; do
         case $i in
+            0)
+                if /sbin/ipset list local-ipset-whitelist &>/dev/null; then
+                    echo "Aktualisiere local-ipset-whitelist"
+
+                    /sbin/ipset flush local-ipset-whitelist
+
+                    if [ -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
+                        for ZONE in $(cat "$LOCAL_IPSET_WHITELIST_FILE" | sed '/#/d')
+                        do /sbin/ipset --add local-ipset-whitelist "$ZONE"
+                        done
+                    fi
+                fi
+                ;;
             1)
                 if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
                     echo "Aktualisiere blocked-countries-ipv4"
@@ -1159,8 +1249,8 @@ function update {
 
                     /sbin/ipset flush local-ipset-blocklist
 
-                    if [ -f /opt/local-ipset-blocklist.zone ]; then
-                        for ZONE in $(cat /opt/local-ipset-blocklist.zone | sed '/#/d')
+                    if [ -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
+                        for ZONE in $(cat "$LOCAL_IPSET_BLOCKLIST_FILE" | sed '/#/d')
                         do /sbin/ipset --add local-ipset-blocklist "$ZONE"
                         done
                     fi
@@ -1180,11 +1270,18 @@ function remove {
     if [ $# -gt 0 ]; then
         auswahl="$(normalize_selection "$@")"
     else
-        auswahl="1 2 3 4 5 6 7 8 9 10 11 12 13"
+        auswahl="0 1 2 3 4 5 6 7 8 9 10 11 12 13"
     fi
 
     for i in $auswahl; do
         case $i in
+            0)
+                if /sbin/ipset list local-ipset-whitelist &>/dev/null; then
+                    echo "Entferne local-ipset-whitelist"
+
+                    /sbin/ipset --destroy local-ipset-whitelist
+                fi
+                ;;
             1)
                 if /sbin/ipset list blocked-countries-ipv4 &>/dev/null; then
                     echo "Entferne blocked-countries-ipv4"
@@ -1328,18 +1425,65 @@ function add_local_ipset_blocklist_entry {
         fi
     done
 
-    if [ ! -f /opt/local-ipset-blocklist.zone ]; then
-        touch /opt/local-ipset-blocklist.zone
+    if [ ! -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
+        touch "$LOCAL_IPSET_BLOCKLIST_FILE"
     fi
 
-    if grep -Fxq "$ip/$mask" /opt/local-ipset-blocklist.zone; then
+    if grep -Fxq "$ip/$mask" "$LOCAL_IPSET_BLOCKLIST_FILE"; then
         echo "Eintrag bereits vorhanden: $ip/$mask"
     else
-        printf '%s\n' "$ip/$mask" >> /opt/local-ipset-blocklist.zone
+        printf '%s\n' "$ip/$mask" >> "$LOCAL_IPSET_BLOCKLIST_FILE"
         echo "Eintrag hinzugefuegt: $ip/$mask"
     fi
 
     update 13
+}
+
+# Einen Eintrag zur lokalen Whitelist hinzufügen
+function add_local_ipset_whitelist_entry {
+    local entry="$1"
+    local octet
+    local ip
+    local mask
+
+    if [ -z "$entry" ]; then
+        echo "Bitte eine IPv4-Adresse oder IPv4/CIDR-Angabe uebergeben."
+        return 1
+    fi
+
+    if [[ "$entry" != */* ]]; then
+        entry="$entry/32"
+    fi
+
+    if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
+        echo "Ungueltiges Format: $entry"
+        echo "Erwartet wird eine IPv4-Adresse oder IPv4/CIDR-Angabe, z.B. 0.0.0.0/8 oder 0.0.0.0"
+        return 1
+    fi
+
+    ip="${entry%/*}"
+    mask="${entry#*/}"
+
+    IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
+    for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
+        if [ "$octet" -lt 0 ] || [ "$octet" -gt 255 ]; then
+            echo "Ungueltige IPv4-Adresse: $ip"
+            return 1
+        fi
+    done
+
+    if [ ! -f "$LOCAL_IPSET_WHITELIST_FILE" ]; then
+        touch "$LOCAL_IPSET_WHITELIST_FILE"
+    fi
+
+    if grep -Fxq "$ip/$mask" "$LOCAL_IPSET_WHITELIST_FILE"; then
+        echo "Eintrag bereits vorhanden: $ip/$mask"
+    else
+        printf '%s\n' "$ip/$mask" >> "$LOCAL_IPSET_WHITELIST_FILE"
+        echo "Eintrag hinzugefuegt: $ip/$mask"
+    fi
+
+    update 14
 }
 
 # Auswahl sortieren: groesser zuerst, damit die Reihenfolge der Uebergabe egal ist
