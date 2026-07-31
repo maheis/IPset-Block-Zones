@@ -242,7 +242,13 @@ function update {
 
                     /sbin/ipset flush local-ipset-blocklist
 
-                    import_ipset_file_with_whitelist local-ipset-blocklist "$LOCAL_IPSET_BLOCKLIST_FILE"
+                    if [ -f "$LOCAL_IPSET_BLOCKLIST_FILE" ]; then
+                        for ZONE in $(cat "$LOCAL_IPSET_BLOCKLIST_FILE" | sed '/#/d')
+                        do /sbin/ipset --add local-ipset-blocklist "$ZONE"
+                        done
+                    fi
+
+                    block    
                 fi
                 ;;
             2)
@@ -476,7 +482,7 @@ function remove {
 }
 
 # Einen Eintrag zur lokalen Blockliste hinzufügen
-function add_local_ipset_blocklist_entry {
+function block {
     local entry="$1"
     local normalized_entry
 
@@ -500,13 +506,14 @@ function add_local_ipset_blocklist_entry {
     else
         printf '%s\n' "$normalized_entry" >> "$LOCAL_IPSET_BLOCKLIST_FILE"
         echo "Eintrag hinzugefuegt: $normalized_entry"
+        update 1
     fi
 
-    update 1
+    cat "$LOCAL_IPSET_BLOCKLIST_FILE"
 }
 
 # Einen Eintrag zur lokalen Whitelist hinzufügen
-function add_local_ipset_whitelist_entry {
+function allow {
     local entry="$1"
     local normalized_entry
 
@@ -679,23 +686,4 @@ function wget {
     fi
 
     command wget "$@"
-}
-
-function import_ipset_file_with_whitelist {
-    local set_name="$1"
-    local source_file="$2"
-    local filtered_file
-
-    if [ ! -f "$source_file" ]; then
-        return 1
-    fi
-
-    filtered_file="$(mktemp)"
-    filter_entries_against_whitelist "$source_file" "$LOCAL_IPSET_WHITELIST_FILE" "$filtered_file" "$set_name"
-
-    if [ -s "$filtered_file" ]; then
-        /sbin/ipset restore -exist < "$filtered_file"
-    fi
-
-    rm -f "$filtered_file"
 }

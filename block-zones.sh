@@ -36,10 +36,10 @@ case $ACTION in
         remove "$@"
         ;;
     block)
-        add_local_ipset_blocklist_entry "$1"
+        block "$1"
         ;;
     allow)
-        add_local_ipset_whitelist_entry "$1"
+        allow "$1"
         ;;
     *)
         echo "Usage:"
