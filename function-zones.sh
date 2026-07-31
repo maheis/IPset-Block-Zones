@@ -509,6 +509,8 @@ function block {
         update 1
     fi
 
+    echo ""
+    echo "### Aktuelle Blockliste ###"
     cat "$LOCAL_IPSET_BLOCKLIST_FILE"
 }
 
@@ -542,6 +544,8 @@ function allow {
     cat "$LOCAL_IPSET_WHITELIST_FILE" | sort -u > "${LOCAL_IPSET_WHITELIST_FILE}.tmp"
     mv "${LOCAL_IPSET_WHITELIST_FILE}.tmp" "$LOCAL_IPSET_WHITELIST_FILE"
 
+    echo ""
+    echo "### Aktuelle Whitelist ###"
     cat "$LOCAL_IPSET_WHITELIST_FILE"
 }
 
