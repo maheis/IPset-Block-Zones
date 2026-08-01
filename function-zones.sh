@@ -559,7 +559,6 @@ function normalize_local_ipset_entry() {
     local entry="$1"
     local ip
     local mask
-    local octet
 
     entry="$(trim "$entry")"
 
@@ -567,21 +566,12 @@ function normalize_local_ipset_entry() {
         return 1
     fi
 
-    if [[ "$entry" == */* ]]; then
-        if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}/([0-9]|[12][0-9]|3[0-2])$ ]]; then
-            return 1
-        fi
-
-        ip="${entry%/*}"
-        mask="${entry#*/}"
-    else
-        if [[ ! "$entry" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
-            return 1
-        fi
-
-        ip="$entry"
-        mask=""
+    if [[ ! "$entry" =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3})(/([0-9]|[12][0-9]|3[0-2]))?$ ]]; then
+        return 1
     fi
+
+    ip="${BASH_REMATCH[1]}"
+    mask="${BASH_REMATCH[4]}"
 
     IFS='.' read -r octet1 octet2 octet3 octet4 <<< "$ip"
     for octet in "$octet1" "$octet2" "$octet3" "$octet4"; do
