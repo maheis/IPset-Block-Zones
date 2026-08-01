@@ -482,7 +482,7 @@ function remove {
 }
 
 # Einen Eintrag zur lokalen Blockliste hinzufügen
-function block {
+function block_add {
     local entry="$1"
     local normalized_entry
 
@@ -515,7 +515,7 @@ function block {
 }
 
 # Einen Eintrag zur lokalen Whitelist hinzufügen
-function allow {
+function allow_add {
     local entry="$1"
     local normalized_entry
 

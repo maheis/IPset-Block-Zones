@@ -36,10 +36,10 @@ case $ACTION in
         remove "$@"
         ;;
     block)
-        block "$1"
+        block_add "$1"
         ;;
     allow)
-        allow "$1"
+        allow_add "$1"
         ;;
     *)
         echo "Usage:"
