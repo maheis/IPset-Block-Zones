@@ -247,8 +247,6 @@ function update {
                         do /sbin/ipset --add local-ipset-blocklist "$ZONE"
                         done
                     fi
-
-                    block    
                 fi
                 ;;
             2)
