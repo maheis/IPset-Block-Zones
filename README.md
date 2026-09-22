@@ -40,6 +40,8 @@ mkdir -p /etc/ipset
 wget https://raw.githubusercontent.com/maheis/IPset-Block-Zones/refs/heads/main/block-zones.sh > /dev/null 2>&1
 sudo mv -f block-zones.sh /etc/ipset/block-zones.sh
 sudo chmod +x /etc/ipset/block-zones.sh
+sudo /etc/ipset/block-zones.sh install
+#reboot
 ```
 
 ## Nutzung
