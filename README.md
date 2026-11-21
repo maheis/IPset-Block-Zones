@@ -8,7 +8,7 @@ Geblockt wird eingehender Traffic auf dem konfigurierten Interface (Standard: **
 [Firehole](https://iplists.firehol.org)
 
 - local-ipset-whitelist
-  - Eine eigene lokale Whitelist. Diese kann dann mit eigenen IPs befüllt werden die dem Format
+  - Lokale Whitelist unter `/opt/local-ipset-whitelist.zone`. Einträge daraus werden beim Laden der Firehol-Listen herausgefiltert, damit diese IPs nicht durch die ausgewählten Firehol-Blocklisten gesperrt werden.
 - local-ipset-blocklist
   - Eine eigene lokale Block-Liste. Diese kann dann mit eigenen IPs befüllt werden die dem Format 0.0.0.0/0 entsprechen. Liste muss unter /opt/local-ipset-blocklist.zone erstellt werden!
 - firehol_abusers_1d
@@ -60,6 +60,19 @@ sudo /etc/ipset/block-zones.sh allow 10.0.0.0/8 # Eintrag zur lokalen Whitelist 
 sudo /etc/ipset/block-zones.sh allow 10.4.7.11  # Eintrag zur lokalen Whitelist hinzufügen
 sudo /etc/ipset/block-zones.sh remove           # Alle Listen entfernen
 ```
+
+## Whitelist
+
+Mit `allow <IP-oder-Netz>` wird ein Eintrag in die lokale Whitelist aufgenommen, zum Beispiel:
+
+```bash
+sudo /etc/ipset/block-zones.sh allow 140.82.121.3
+sudo /etc/ipset/block-zones.sh update
+```
+
+Die Whitelist wird beim Laden der Firehol-Listen angewendet. `create` lädt die ausgewählten Listen direkt nach dem Anlegen; bei bereits vorhandenen Listen muss nach einer Änderung der Whitelist `update` ausgeführt werden. Erst dann werden die Einträge neu geladen und mit der Whitelist abgeglichen. `allow` allein ändert bereits geladene ipsets nicht und fügt keine eigene iptables-`ACCEPT`-Regel hinzu.
+
+Der Abgleich erfolgt exakt: Eine einzelne IP-Adresse entspricht dabei ihrem `/32`-Eintrag. Ein Whitelist-Netz wie `192.0.2.0/24` filtert daher nur genau diesen Netzeintrag aus der Quelle, nicht beliebige darin enthaltene Einzeladressen oder kleinere Netze. Die lokale `local-ipset-blocklist` wird nicht gegen die Whitelist gefiltert.
 
 ## Konfiguration
 
