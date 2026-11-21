@@ -1,7 +1,7 @@
 # 🇩🇪 IPset-Block-Zones
 
 Dieses Skript ermöglicht das einfache Einrichten und Verwalten von IP-Blocklisten mit `ipset`, basierend auf den Blocklisten von [Firehole](https://iplists.firehol.org) und lässt sich leicht mit anderen Blocklisten erweitern. Meldet euch bitte, wenn ihr weitere Blocklisten kennt, die hier sinnvoll ergänzt werden können.
-Geblockt wird eingehender Traffic auf dem Interface **eth0** von IP-Adressen, die in den ausgewählten Blocklisten enthalten sind. Dies kann helfen, unerwünschten Traffic zu reduzieren und die Sicherheit des Systems zu erhöhen.
+Geblockt wird eingehender Traffic auf dem konfigurierten Interface (Standard: **eth0**, änderbar über `config`) von IP-Adressen, die in den ausgewählten Blocklisten enthalten sind. Dies kann helfen, unerwünschten Traffic zu reduzieren und die Sicherheit des Systems zu erhöhen.
 
 ## Listen
 
@@ -50,6 +50,7 @@ sudo /etc/ipset/block-zones.sh install
 sudo /etc/ipset/block-zones.sh
 
 sudo /etc/ipset/block-zones.sh install          # Benötigte Pakete installieren
+sudo /etc/ipset/block-zones.sh config           # Konfiguration (siehe unten)
 sudo /etc/ipset/block-zones.sh lists            # Listen anzeigen
 sudo /etc/ipset/block-zones.sh create           # Auswahl Listen erstellen
 sudo /etc/ipset/block-zones.sh update           # Vorhandene Listen aktualisieren
@@ -59,6 +60,18 @@ sudo /etc/ipset/block-zones.sh allow 10.0.0.0/8 # Eintrag zur lokalen Whitelist 
 sudo /etc/ipset/block-zones.sh allow 10.4.7.11  # Eintrag zur lokalen Whitelist hinzufügen
 sudo /etc/ipset/block-zones.sh remove           # Alle Listen entfernen
 ```
+
+## Konfiguration
+
+Mit `config` lässt sich das Skript interaktiv konfigurieren:
+
+```bash
+sudo /etc/ipset/block-zones.sh config
+```
+
+Aktuell konfigurierbar:
+
+- **Netzwerkkarte**, auf die die iptables-Regeln angewendet werden (Standard: `eth0`). Die Auswahl wird in `/etc/ipset/iptables_interface.conf` gespeichert und bei allen folgenden Aufrufen (`create`, `update`, `remove`) verwendet.
 
 ## Automatisierung
 
