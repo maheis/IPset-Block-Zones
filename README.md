@@ -96,3 +96,11 @@ sudo crontab -e
 @daily /etc/ipset/block-zones.sh update
 
 ```
+
+## Notizen
+
+Github IP-Adressen werden in einer Liste geblockt.
+140.82.121.3
+140.82.121.4
+
+10.0.0.0/8 wird in einer der Liste geblockt.
